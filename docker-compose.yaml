@@ -1,0 +1,48 @@
+services:
+
+  db:
+    labels:
+      - data
+    image: postgres:16.3-alpine
+    container_name: db
+    restart: on-failure
+    environment:
+      POSTGRES_DB: law_it
+      POSTGRES_USER: law_it_admin
+      POSTGRES_PASSWORD: pass
+    networks:
+      - application-network
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/db:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongodb:
+    labels:
+      - data
+    image: mongo
+    container_name: mongodb
+    restart: on-failure
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: x3qRt9zY
+      MONGO_INITDB_ROOT_PASSWORD: gsi8LN6pWq
+      MONGODB_SCRAPE_ENABLE: true
+    networks:
+      - application-network
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+networks:
+  application-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local

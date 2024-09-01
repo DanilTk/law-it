@@ -1,0 +1,69 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-case-attachment
+      author: Dan Tkachenko
+      changes:
+        - createTable:
+            tableName: case_attachment
+            columns:
+              - column:
+                  name: uuid
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: version
+                  type: integer
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  defaultValueComputed: current_timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  defaultValueComputed: current_timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_case_attachment_created_by_to_application_user_uuid
+                    referencedColumnNames: uuid
+                    referencedTableName: application_user
+              - column:
+                  name: updated_by
+                  type: uuid
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_case_attachment_updated_by_to_application_user_uuid
+                    referencedColumnNames: uuid
+                    referencedTableName: application_user
+              - column:
+                  name: case_uuid
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_case_attachment_case_uuid_to_case_uuid
+                    referencedColumnNames: uuid
+                    referencedTableName: case
+              - column:
+                  name: file_uuid
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_case_attachment_file_uuid_to_stored_file_uuid
+                    referencedColumnNames: uuid
+                    referencedTableName: stored_file
+              - column:
+                  name: attachment_type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false

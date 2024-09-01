@@ -1,0 +1,10 @@
+name: Build and test artifact
+
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+    branches: [ develop, master ]
+
+jobs:
+  build_and_test_artifact:
+    uses: ./.github/workflows/reusable-build-and-test.yaml

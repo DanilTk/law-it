@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-set-quartz
+      author: Dan Tkachenko
+      changes:
+        - sqlFile:
+            path: db.changelog/data/table-set-quartz.sql

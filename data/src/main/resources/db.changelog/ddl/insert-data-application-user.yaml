@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-data-application_user
+      author: Dan Tkachenko
+      changes:
+        - sqlFile:
+            path: db.changelog/data/application-user.sql

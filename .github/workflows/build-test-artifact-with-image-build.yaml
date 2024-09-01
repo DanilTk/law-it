@@ -1,0 +1,49 @@
+name: Build artifact and Docker image
+
+on:
+  push:
+    branches: [ develop, master ]
+
+jobs:
+  build_and_test_artifact:
+    uses: ./.github/workflows/reusable-build-and-test.yaml
+
+  build_image:
+    needs: build_and_test_artifact
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build_and_test.outputs.artifact_name }}
+          path: application/target
+
+      - id: slug
+        run: echo "SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_ENV
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: 🐳 Build Docker image
+        id: build_docker_image
+        run: |
+          if docker buildx build --load \
+            -t ${{ github.event.repository.name }}:${{ env.SHORT_SHA }} \
+            -f ./Dockerfile .; then
+            echo "::notice title=Docker Build Completed::✅ Docker image built successfully!"
+            echo "::notice title=Docker Image Info::🏷️ Image tag: ${{ github.event.repository.name }}:${{ env.SHORT_SHA }}"
+          else
+            echo "::error title=Docker Build Failed::❌ The Docker image build process failed."
+            exit 1
+          fi
+
+      - name: Cleanup artifact
+        if: ${{ steps.build_docker_image.conclusion == 'success' }}
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: ${{ needs.build_and_test_artifact.outputs.artifact_name }}
+
+      - name: Cleanup resources
+        if: ${{ steps.build_docker_image.conclusion == 'success' }}
+        run: |
+          rm -rf application/target
+          docker system prune -f

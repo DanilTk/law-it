@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - include:
+      file: db.changelog/ddl/create-table-set-quartz.yaml
+  - include:
+      file: db.changelog/ddl/create-table-application-user.yaml
+  - include:
+      file: db.changelog/ddl/create-table-stored_file.yaml
+  - include:
+      file: db.changelog/ddl/create-table-company.yaml
+  - include:
+      file: db.changelog/ddl/create-table-lawyer.yaml
+  - include:
+      file: db.changelog/ddl/create-table-case.yaml
+  - include:
+      file: db.changelog/ddl/create-table-case-attachment.yaml
+  - include:
+      file: db.changelog/ddl/create-table-transaction.yaml
+  - include:
+      file: db.changelog/ddl/create-table-document-template.yaml
+  - include:
+      file: db.changelog/ddl/create-table-document-template-parameter.yaml
+  - include:
+      file: db.changelog/ddl/insert-data-application-user.yaml
+

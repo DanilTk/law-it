@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>pl.lawit</groupId>
+    <artifactId>lawit</artifactId>
+    <version>${revision}</version>
+  </parent>
+
+  <artifactId>application</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.github.ulisesbocchio</groupId>
+      <artifactId>jasypt-spring-boot-starter</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>me.paulschwarz</groupId>
+      <artifactId>spring-dotenv</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.lawit</groupId>
+      <artifactId>data</artifactId>
+      <version>${revision}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.lawit</groupId>
+      <artifactId>domain</artifactId>
+      <version>${revision}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.lawit</groupId>
+      <artifactId>email</artifactId>
+      <version>${revision}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.lawit</groupId>
+      <artifactId>scheduler</artifactId>
+      <version>${revision}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.lawit</groupId>
+      <artifactId>shared-kernel</artifactId>
+      <version>${revision}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.lawit</groupId>
+      <artifactId>storage</artifactId>
+      <version>${revision}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.lawit</groupId>
+      <artifactId>web</artifactId>
+      <version>${revision}</version>
+    </dependency>
+  </dependencies>
+
+</project>

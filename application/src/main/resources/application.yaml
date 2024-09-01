@@ -1,0 +1,76 @@
+spring:
+#  cloud:
+#    gcp:
+#      storage:
+#        project-id: placeholder
+#        bucket-name: placeholder
+#        domain: https://storage.googleapis.com/
+#        credentials:
+#          location: placeholder
+  cache:
+    cache-names:
+      - rate-limit-files-bucket-cache
+    caffeine:
+      spec: maximumSize=100000,expireAfterAccess=3600s
+  docker:
+    compose:
+      enabled: false
+  application:
+    name: lawit-api
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        generate_statistics: false
+  liquibase:
+    change-log: classpath:db.changelog/db.changelog-master.yaml
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+      schema: quartz
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: portfolio-manager-scheduler
+          jobStore:
+            tablePrefix: quartz.qrtz_
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+            misfireThreshold: 60000
+            clusterCheckinInterval: 5000
+    wait-for-jobs-to-complete-on-shutdown: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      resolve-lazily: true
+
+logging:
+  level:
+    root: INFO
+    org.hibernate: WARN
+    liquibase: WARN
+    org.postgresql: WARN
+    com.zaxxer.hikari: WARN
+    org.quartz: WARN
+    org.springframework.jms: WARN
+    org.springframework.scheduling.quartz: WARN
+    org.springframework.web.socket: WARN
+    org.springframework.web.socket.config: WARN
+    org.springframework: INFO
+
+bucket4j:
+  filters:
+    - cache-name: rate-limit-files-bucket-cache
+      url: /files.*
+      strategy: first
+      http-response-body: '{"statusCode": 429, "message": "Too many requests."}'
+      rate-limits:
+        - execute-condition: "getMethod().equals('POST')"
+          bandwidths:
+            - capacity: 10
+              time: 1
+              unit: minutes

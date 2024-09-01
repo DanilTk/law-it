@@ -1,0 +1,82 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-lawyer
+      author: Dan Tkachenko
+      changes:
+        - createTable:
+            tableName: lawyer
+            columns:
+              - column:
+                  name: uuid
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: version
+                  type: integer
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  defaultValueComputed: current_timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  defaultValueComputed: current_timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_lawyer_created_by_to_application_user_uuid
+                    referencedColumnNames: uuid
+                    referencedTableName: application_user
+              - column:
+                  name: updated_by
+                  type: uuid
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_lawyer_updated_by_to_application_user_uuid
+                    referencedColumnNames: uuid
+                    referencedTableName: application_user
+              - column:
+                  name: user_uuid
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_lawyer_user_uuid_to_application_user_uuid
+                    referencedColumnNames: uuid
+                    referencedTableName: application_user
+              - column:
+                  name: certificate_file_uuid
+                  type: uuid
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_lawyer_certificate_file_uuid_to_stored_file_uuid
+                    referencedColumnNames: uuid
+                    referencedTableName: stored_file
+              - column:
+                  name: company_uuid
+                  type: uuid
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_lawyer_company_uuid_to_company_uuid
+                    referencedColumnNames: uuid
+                    referencedTableName: company
+              - column:
+                  name: pesel
+                  type: varchar(11)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: hourly_rate
+                  type: numeric
+                  constraints:
+                    nullable: false

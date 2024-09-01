@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-application-user
+      author: Dan Tkachenko
+      changes:
+        - createTable:
+            tableName: application_user
+            columns:
+              - column:
+                  name: uuid
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: version
+                  type: integer
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  defaultValueComputed: current_timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_sync_at
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: true
+              - column:
+                  name: idp_sub
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_idp_user
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_login_at
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: true

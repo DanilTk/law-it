@@ -1,0 +1,23 @@
+spring:
+  docker:
+    compose:
+      enabled: true
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      username: x3qRt9zY
+      password: gsi8LN6pWq
+      authentication-database: admin
+  datasource:
+    url: jdbc:postgresql://localhost:5432/law_it
+    username: law_it_admin
+    password: pass
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+      show-sql: false
+  quartz:
+    auto-startup: false

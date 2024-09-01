@@ -10,11 +10,22 @@
 
   <artifactId>storage</artifactId>
 
-    <dependencies>
-  <!--    <dependency>-->
-  <!--      <groupId>com.google.cloud</groupId>-->
-  <!--      <artifactId>spring-cloud-gcp-starter-storage</artifactId>-->
-  <!--    </dependency>-->
-    </dependencies>
+  <dependencies>
+    <!--    <dependency>-->
+    <!--      <groupId>com.google.cloud</groupId>-->
+    <!--      <artifactId>spring-cloud-gcp-starter-storage</artifactId>-->
+    <!--    </dependency>-->
+    <dependency>
+      <groupId>pl.lawit</groupId>
+      <artifactId>domain</artifactId>
+      <version>${revision}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.lawit</groupId>
+      <artifactId>shared-kernel</artifactId>
+      <version>${revision}</version>
+    </dependency>
+  </dependencies>
 
 </project>

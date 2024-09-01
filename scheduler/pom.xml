@@ -15,6 +15,18 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-quartz</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>pl.lawit</groupId>
+      <artifactId>domain</artifactId>
+      <version>${revision}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.lawit</groupId>
+      <artifactId>shared-kernel</artifactId>
+      <version>${revision}</version>
+    </dependency>
   </dependencies>
 
 </project>

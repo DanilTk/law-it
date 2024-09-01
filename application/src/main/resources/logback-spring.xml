@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+	<include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+	<springProfile name="default, local">
+		<appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+			<encoder>
+				<pattern>%d{yyyy-MM-dd} %-12d{HH:mm:ss.SSS} %highlight(%-5p) [%15.15thread] --- %cyan(%logger{25}) - %yellow(%class.%method) : %msg%ex{full}%n</pattern>
+			</encoder>
+		</appender>
+
+		<logger name="ApplicationLogger" level="INFO" additivity="false">
+			<appender-ref ref="CONSOLE_APPENDER"/>
+		</logger>
+
+		<root level="INFO">
+			<appender-ref ref="CONSOLE_APPENDER"/>
+		</root>
+	</springProfile>
+
+	<springProfile name="dev, uat, prod">
+		<appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+			<encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+		</appender>
+
+		<logger name="ApplicationLogger" level="INFO" additivity="false">
+			<appender-ref ref="CONSOLE_APPENDER"/>
+		</logger>
+
+		<root level="INFO">
+			<appender-ref ref="CONSOLE_APPENDER"/>
+		</root>
+	</springProfile>
+</configuration>

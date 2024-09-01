@@ -24,6 +24,7 @@
     <module>domain</module>
     <module>scheduler</module>
     <module>shared-kernel</module>
+    <module>identity-provider</module>
   </modules>
 
   <properties>
@@ -44,10 +45,17 @@
     <vavr.jackson.version>0.10.3</vavr.jackson.version>
     <dotenv.version>4.0.0</dotenv.version>
     <caffeine.version>3.1.8</caffeine.version>
+    <firebase.version>9.3.0</firebase.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>com.google.firebase</groupId>
+        <artifactId>firebase-admin</artifactId>
+        <version>${firebase.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>com.giffing.bucket4j.spring.boot.starter</groupId>
         <artifactId>bucket4j-spring-boot-starter</artifactId>
@@ -141,10 +149,21 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+
+      <dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct</artifactId>
+        <version>${mapstruct.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
   <dependencies>
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class FirebaseProperties {
 
     private String dbUrl;
-    private String serviceAccount;
+
+    private String storageAccountKey;
 
 }

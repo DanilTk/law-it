@@ -48,9 +48,6 @@ spring:
       max-request-size: 10MB
       resolve-lazily: true
 
-  serviceAccount: "storage/src/main/resources/secrets/firebase-nonprod-key.json"
-
-
 logging:
   level:
     root: INFO
@@ -82,4 +79,4 @@ application:
   security:
     firebase:
       storage-account-key: ${FIREBASE_STORAGE_ACCOUNT_KEY}
-      db-url: "https://fir-poc-b1a3d-default-rtdb.firebaseio.com/"
+      db-url: https://fir-poc-b1a3d-default-rtdb.firebaseio.com/

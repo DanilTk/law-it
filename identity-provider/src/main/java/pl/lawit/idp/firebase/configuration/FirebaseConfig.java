@@ -5,7 +5,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,12 +17,9 @@ public class FirebaseConfig {
 
 	private final FirebaseProperties firebaseProperties;
 
-	@Value("${application.security.firebase.storage-account-key}")
-	private String serviceAccountKey;
-
 	@Bean
 	public FirebaseApp firebaseApp() throws IOException {
-		FileInputStream serviceAccount = new FileInputStream(serviceAccountKey);
+		FileInputStream serviceAccount = new FileInputStream(firebaseProperties.getStorageAccountKey());
 
 		FirebaseOptions options = FirebaseOptions.builder()
 			.setCredentials(GoogleCredentials.fromStream(serviceAccount))

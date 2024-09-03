@@ -1,4 +1,4 @@
-package pl.lawit.idp.firebase.configuration;
+package pl.lawit.application.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
+import pl.lawit.idp.firebase.configuration.FirebaseAuthenticationProvider;
 
 import java.util.Collections;
 

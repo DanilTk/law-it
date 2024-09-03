@@ -74,3 +74,8 @@ bucket4j:
             - capacity: 10
               time: 1
               unit: minutes
+
+application:
+  security:
+    firebase:
+      storage-account-key: ${FIREBASE_STORAGE_ACCOUNT_KEY}

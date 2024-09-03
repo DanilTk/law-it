@@ -14,7 +14,7 @@ import java.io.IOException;
 @Configuration
 public class FirebaseConfig {
 
-	@Value("${firebase.serviceAccountKey}")
+	@Value("${application.security.firebase.storage-account-key}")
 	private String serviceAccountKey;
 
 	@Bean

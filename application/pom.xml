@@ -29,12 +29,6 @@
 
     <dependency>
       <groupId>pl.lawit</groupId>
-      <artifactId>identity-provider</artifactId>
-      <version>${revision}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>pl.lawit</groupId>
       <artifactId>domain</artifactId>
       <version>${revision}</version>
     </dependency>
@@ -42,6 +36,12 @@
     <dependency>
       <groupId>pl.lawit</groupId>
       <artifactId>email</artifactId>
+      <version>${revision}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.lawit</groupId>
+      <artifactId>identity-provider</artifactId>
       <version>${revision}</version>
     </dependency>
 

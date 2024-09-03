@@ -32,18 +32,6 @@
     </dependency>
 
     <dependency>
-      <groupId>pl.lawit</groupId>
-      <artifactId>domain</artifactId>
-      <version>${revision}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>pl.lawit</groupId>
-      <artifactId>shared-kernel</artifactId>
-      <version>${revision}</version>
-    </dependency>
-
-    <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
     </dependency>
@@ -61,6 +49,18 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.lawit</groupId>
+      <artifactId>domain</artifactId>
+      <version>${revision}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.lawit</groupId>
+      <artifactId>shared-kernel</artifactId>
+      <version>${revision}</version>
     </dependency>
   </dependencies>
 

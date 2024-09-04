@@ -1,4 +1,6 @@
 spring:
+  thymeleaf:
+    check-template: false
   cloud:
     gcp:
       storage:

@@ -7,9 +7,9 @@ services:
     container_name: db
     restart: on-failure
     environment:
+      POSTGRES_DB: law_it
       POSTGRES_USER: law_it_admin
       POSTGRES_PASSWORD: pass
-      POSTGRES_DB: law_it
     networks:
       - application-network
     ports:

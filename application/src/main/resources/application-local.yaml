@@ -10,7 +10,7 @@ spring:
       password: gsi8LN6pWq
       authentication-database: admin
   datasource:
-    url: jdbc:postgresql://localhost:5432/law_it
+    url: jdbc:postgresql://localhost:5433/law_it
     username: law_it_admin
     password: pass
   jpa:

@@ -4,9 +4,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/users")
@@ -19,7 +21,6 @@ public class UserController {
     @PostMapping("/add")
     public String addUser(@RequestParam(value= "email" , required = true) String email,
                           @RequestParam (value= "password" , required = true)  String password) {
-        //qwwe2131BNJNB1
         try {
             UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                     .setEmail(email)
@@ -56,12 +57,5 @@ public class UserController {
             return "Error deleting user: " + e.getMessage();
         }
     }
-//
-//
-//    @GetMapping("/list")
-//    public List<String> listUsers(@RequestParam(value= "pageToken" , required = false) String pageToken) {
-//        return firebaseUserService.listUserEmails(pageToken);
-//    }
-
 
 }

@@ -21,3 +21,10 @@ spring:
       show-sql: false
   quartz:
     auto-startup: false
+
+application:
+  server-url: http://localhost:8080
+
+springdoc:
+  swagger-ui:
+    oauth2-redirect-url: http://localhost:8080/swagger-ui/oauth2-redirect.html

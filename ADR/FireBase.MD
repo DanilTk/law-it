@@ -1,6 +1,3 @@
-Sometimes for FireBase it is required to configure
-GOOGLE_APPLICATION_CREDENTIALS in the Environment Variables
+If encountering issues like NPE with FireBase, make sure to check the following:
 
-or you might get FireBase==> FirestoreOptins NullPointer Exception
-
-GOOGLE_APPLICATION_CREDENTIALS=C:/Programming/law-it/storage/src/main/resources/secrets/firebase-nonprod-sa.json
+- GOOGLE_APPLICATION_CREDENTIALS is configured as Environment Variable which contains firebase json

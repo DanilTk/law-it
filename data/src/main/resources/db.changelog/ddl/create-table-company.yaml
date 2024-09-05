@@ -53,17 +53,14 @@ databaseChangeLog:
                     nullable: false
                     unique: true
               - column:
-                  name: company_type
-                  type: varchar(35)
+                  name: company_email
+                  type: varchar(50)
                   constraints:
                     nullable: false
-              - column:
-                  name: company_status
-                  type: varchar(15)
-                  constraints:
-                    nullable: false
+                    unique: true
               - column:
                   name: nip
-                  type: varchar(10)
+                  type: varchar(12)
                   constraints:
+                    unique: true
                     nullable: false

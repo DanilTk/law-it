@@ -14,14 +14,18 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
-import org.springframework.security.oauth2.jwt.*;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtDecoders;
+import org.springframework.security.oauth2.jwt.JwtValidators;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import pl.lawit.application.configuration.SecurityProperties;
 import pl.lawit.application.security.firebase.FirebaseAuthenticationFilter;
 import pl.lawit.idp.firebase.configuration.FirebaseAuthenticationProvider;
+import pl.lawit.kernel.authentication.JwtClaimResolver;
 import pl.lawit.kernel.model.ApplicationUserRole;
 
 import java.util.Collections;
@@ -40,19 +44,19 @@ public class SecurityConfig {
 
 	private final SecurityProperties securityProperties;
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        FirebaseAuthenticationFilter firebaseAuthFilter = new FirebaseAuthenticationFilter("/api/**");
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		FirebaseAuthenticationFilter firebaseAuthFilter = new FirebaseAuthenticationFilter("/api/**");
 
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .addFilterAfter(firebaseAuthFilter, BasicAuthenticationFilter.class)
-                .authorizeHttpRequests(auth ->
-                        auth.requestMatchers(getPermittedMatchers()).permitAll()
-                        .anyRequest().authenticated())
-                .cors(withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
-                .oauth2ResourceServer($ -> $.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
+		http
+			.csrf(AbstractHttpConfigurer::disable)
+			.addFilterAfter(firebaseAuthFilter, BasicAuthenticationFilter.class)
+			.authorizeHttpRequests(auth ->
+				auth.requestMatchers(getPermittedMatchers()).permitAll()
+					.anyRequest().authenticated())
+			.cors(withDefaults())
+			.csrf(AbstractHttpConfigurer::disable)
+			.oauth2ResourceServer($ -> $.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
 
 		return http.build();
 	}

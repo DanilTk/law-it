@@ -1,14 +1,16 @@
 package pl.lawit.domain.command;
 
-import ch.qos.logback.core.util.FileSize;
 import lombok.Builder;
 import lombok.NonNull;
-import org.apache.pdfbox.util.filetypedetector.FileType;
 import pl.lawit.kernel.authentication.AuthenticatedUser;
 import pl.lawit.kernel.model.FileContent;
 import pl.lawit.kernel.model.FileName;
+import pl.lawit.kernel.model.FilePath;
+import pl.lawit.kernel.model.FileSize;
 import pl.lawit.kernel.model.Md5Checksum;
 import pl.lawit.kernel.model.MimeType;
+
+import java.net.URL;
 
 public interface FileStorageCommand {
 
@@ -28,13 +30,38 @@ public interface FileStorageCommand {
 		FileSize fileSize,
 
 		@NonNull
-		FileType fileType,
+		Md5Checksum md5Checksum,
+
+		@NonNull
+		AuthenticatedUser authenticatedUser
+
+	) {
+
+	}
+
+	@Builder(toBuilder = true)
+	record RegisterUploadedFileCommand(
+
+		@NonNull
+		MimeType mimeType,
+
+		@NonNull
+		FileName fileName,
+
+		@NonNull
+		FileSize fileSize,
 
 		@NonNull
 		Md5Checksum md5Checksum,
 
 		@NonNull
-		AuthenticatedUser authenticatedUser
+		AuthenticatedUser authenticatedUser,
+
+		@NonNull
+		FilePath filePath,
+
+		@NonNull
+		URL url
 
 	) {
 

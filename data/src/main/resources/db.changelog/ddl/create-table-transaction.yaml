@@ -66,6 +66,6 @@ databaseChangeLog:
                   type: uuid
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_transaction_invoice_file_uuid_to_stored_file_uuid
+                    foreignKeyName: fk_transaction_invoice_file_uuid_to_registered_file_uuid
                     referencedColumnNames: uuid
-                    referencedTableName: stored_file
+                    referencedTableName: registered_file

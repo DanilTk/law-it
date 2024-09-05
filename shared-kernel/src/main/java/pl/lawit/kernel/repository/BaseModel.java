@@ -1,5 +1,7 @@
 package pl.lawit.kernel.repository;
 
+import io.vavr.control.Option;
+
 import java.time.Instant;
 import java.util.UUID;
 
@@ -9,10 +11,10 @@ public interface BaseModel {
 
 	Instant createdAt();
 
-	Instant updatedAt();
+	Option<Instant> updatedAt();
 
 	UUID createdBy();
 
-	UUID updatedBy();
+	Option<UUID> updatedBy();
 
 }

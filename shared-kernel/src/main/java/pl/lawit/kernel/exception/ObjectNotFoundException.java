@@ -35,6 +35,10 @@ public class ObjectNotFoundException extends BaseException {
 		return create(String.valueOf(uuid), ObjectFieldName.UUID, objectClass.getSimpleName());
 	}
 
+	public static ObjectNotFoundException byTemplateName(@Nullable String name, @NonNull Class<?> objectClass) {
+		return create(String.valueOf(name), ObjectFieldName.TEMPLATE_NAME, objectClass.getSimpleName());
+	}
+
 	public static ObjectNotFoundException bySub(@Nullable String sub, @NonNull Class<?> objectClass) {
 		return create(sub, SUB, objectClass.getSimpleName());
 	}

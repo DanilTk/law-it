@@ -47,25 +47,29 @@ databaseChangeLog:
                     referencedColumnNames: uuid
                     referencedTableName: application_user
               - column:
+                  name: template_category
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+              - column:
                   name: template_name
                   type: varchar(50)
                   constraints:
                     nullable: false
               - column:
-                  name: template_category
-                  type: varchar(15)
-                  constraints:
-                    nullable: false
-              - column:
                   name: language_code
-                  type: varchar(3)
+                  type: varchar(2)
                   constraints:
                     nullable: false
               - column:
-                  name: document_uuid
+                  name: file_uuid
                   type: uuid
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_document_template_document_uuid_to_stored_file_uuid
+                    foreignKeyName: fk_document_template_file_uuid_to_registered_file_uuid
                     referencedColumnNames: uuid
-                    referencedTableName: stored_file
+                    referencedTableName: registered_file
+        - addUniqueConstraint:
+            tableName: document_template
+            columnNames: template_category, template_name, file_uuid, language_code
+            constraintName: uq_document_template_category_name_file_language

@@ -25,6 +25,7 @@
     <module>scheduler</module>
     <module>shared-kernel</module>
     <module>identity-provider</module>
+    <module>reporting</module>
   </modules>
 
   <properties>
@@ -50,7 +51,6 @@
 
   <dependencyManagement>
     <dependencies>
-
       <dependency>
         <groupId>com.giffing.bucket4j.spring.boot.starter</groupId>
         <artifactId>bucket4j-spring-boot-starter</artifactId>
@@ -76,6 +76,7 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+
       <dependency>
         <groupId>com.google.firebase</groupId>
         <artifactId>firebase-admin</artifactId>
@@ -159,7 +160,6 @@
   </dependencyManagement>
 
   <dependencies>
-
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>

@@ -3,7 +3,7 @@ package pl.lawit.web.factory;
 import io.vavr.collection.List;
 import org.springframework.stereotype.Component;
 import pl.lawit.kernel.model.PageResult;
-import pl.lawit.web.model.PageResponseDto;
+import pl.lawit.web.dto.PageResponseDto;
 
 import java.util.function.Function;
 

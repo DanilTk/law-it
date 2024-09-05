@@ -8,7 +8,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import pl.lawit.application.security.firebase.FirebaseAuthenticationFilter;
 import pl.lawit.idp.firebase.configuration.FirebaseAuthenticationProvider;
 
 import java.util.Collections;
@@ -19,13 +23,17 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        FirebaseAuthenticationFilter firebaseAuthFilter = new FirebaseAuthenticationFilter("/api/**");
+
         http
-                .csrf(AbstractHttpConfigurer::disable)  // Disable CSRF protection for simplicity; adjust as needed
+                .csrf(AbstractHttpConfigurer::disable)
+                .addFilterAfter(firebaseAuthFilter, BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/**").permitAll()  // Permit all requests to /api/users endpoints
-                        .anyRequest().authenticated()  // Require authentication for all other requests
+                        .requestMatchers("/api/users/**").permitAll()
+                        .anyRequest().authenticated()
                 )
-        ;  // Use HTTP Basic Authentication; adjust as needed
+
+        ;
 
         return http.build();
     }
@@ -35,4 +43,9 @@ public class SecurityConfig {
         FirebaseAuthenticationProvider provider = new FirebaseAuthenticationProvider(userDetailsService);
         return new ProviderManager(Collections.singletonList(provider));
     }
+
+
+
+
+
 }

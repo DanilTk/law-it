@@ -20,6 +20,7 @@
       <groupId>org.apache.pdfbox</groupId>
       <artifactId>pdfbox</artifactId>
     </dependency>
+
     <dependency>
       <groupId>pl.lawit</groupId>
       <artifactId>shared-kernel</artifactId>

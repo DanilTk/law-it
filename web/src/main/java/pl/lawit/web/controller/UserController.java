@@ -7,6 +7,8 @@ import com.google.firebase.auth.UserRecord;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.lawit.web.dto.PhoneNumberRequestDTO;
 import pl.lawit.web.dto.RegisterRequestDTO;
@@ -22,6 +24,7 @@ public class UserController {
     private final FirebaseAuth firebaseAuth;
 
 
+    @PreAuthorize("hasRole('ADMIN_USER')")
     @PostMapping("/add")
     public ResponseEntity<String> registerUser(@RequestBody RegisterRequestDTO registerRequest) {
         try {
@@ -39,6 +42,7 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasRole('CLIENT_USER')")
     @PostMapping("/add-phone")
     public ResponseEntity<String> addPhoneNumber(@RequestBody PhoneNumberRequestDTO phoneNumberRequest) {
         try {
@@ -64,6 +68,7 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN_USER')")
     @PostMapping("/modify-password")
     public String modifyUserPassword(@RequestParam(value= "uid" , required = true) String uid,
                                      @RequestParam(value= "password" , required = true) String newPassword) {
@@ -78,6 +83,7 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN_USER')")
     @DeleteMapping
     public String deleteUser(@RequestParam (value= "uid" , required = true) String uid) {
         try {
@@ -89,6 +95,7 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN_USER') || hasRole('CLIENT_USER') || hasRole('LAWYER_USER')")
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestHeader("Authorization") String idToken) {
         try {

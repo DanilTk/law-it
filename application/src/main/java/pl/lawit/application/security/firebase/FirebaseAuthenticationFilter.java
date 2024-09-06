@@ -10,50 +10,52 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class FirebaseAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+@Component
+public class FirebaseAuthenticationFilter extends OncePerRequestFilter {
 
-    public FirebaseAuthenticationFilter(String defaultFilterProcessesUrl) {
-        super(defaultFilterProcessesUrl);
-    }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String token = request.getHeader("Authorization");
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7); // Remove "Bearer " prefix
-            try {
-                FirebaseToken firebaseToken = FirebaseAuth.getInstance().verifyIdToken(token);
-                List<GrantedAuthority> authorities = getAuthoritiesFromToken(firebaseToken);
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain) throws ServletException, IOException {
 
-                FirebaseAuthenticationToken auth = new FirebaseAuthenticationToken(authorities);
-                return auth;
-            } catch (FirebaseAuthException e) {
-                throw new RuntimeException("Invalid Firebase token", e);
+        String idToken = request.getHeader("Authorization");
+
+        if (idToken == null || idToken.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Missing Firebase ID-Token");
+            return;
+        }
+
+        try {
+            FirebaseToken token = FirebaseAuth.getInstance().verifyIdToken(idToken.replace("Bearer ", ""));
+
+            String role = (String) token.getClaims().get("Role");
+            List<GrantedAuthority> authorities = new ArrayList<>();
+
+            if (role != null) {
+                authorities.add(new SimpleGrantedAuthority(role));
             }
-        }
-        throw new RuntimeException("Authorization header is missing or invalid");
-    }
 
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        SecurityContextHolder.getContext().setAuthentication(authResult);
-        chain.doFilter(request, response);
-    }
+            FirebaseAuthenticationToken authenticationToken = new FirebaseAuthenticationToken(idToken, token, authorities);
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-    private static List<GrantedAuthority> getAuthoritiesFromToken(FirebaseToken token) {
-        Object claims = token.getClaims().get("authorities");
-        List<String> permissions = (List<String>) claims;
-        List<GrantedAuthority> authorities = AuthorityUtils.NO_AUTHORITIES;
-        if (permissions != null && !permissions.isEmpty()) {
-            authorities = AuthorityUtils.createAuthorityList(permissions);
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Firebase ID-Token");
+            return;
         }
-        return authorities;
+
+        filterChain.doFilter(request, response);
     }
 }

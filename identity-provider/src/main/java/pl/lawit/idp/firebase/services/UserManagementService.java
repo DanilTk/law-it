@@ -2,14 +2,14 @@ package pl.lawit.idp.firebase.services;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.internal.FirebaseService;
+import com.google.firebase.auth.UserRecord;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.security.Permission;
-import java.util.List;
+
+import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -17,16 +17,39 @@ public class UserManagementService {
 
     private final FirebaseAuth firebaseAuth;
 
-    public void setUserClaims(String uid, List<Permission> requestedPermissions) throws FirebaseAuthException {
-        List<String> permissions = requestedPermissions
-                .stream()
-                .map(Permission::toString)
-                .toList();
+    public void setUserClaims(String uid, String claim, String value) throws FirebaseAuthException {
+        UserRecord userRecord = firebaseAuth.getUser(uid);
+        Map<String, Object> claims = userRecord.getCustomClaims();
 
-        Map<String, Object> claims = Map.of("custom_claims", permissions);
+        Map<String, Object> mutableClaims =  new HashMap<>();
+        mutableClaims.put(claim, value);
 
-        firebaseAuth.setCustomUserClaims(uid, claims);
+        if (claims != null) {
+            mutableClaims.putAll(claims);
+        }
+
+
+        firebaseAuth.setCustomUserClaims(uid, mutableClaims);
     }
 
+
+    public Map<String, Object> getUserClaims(String uid) throws FirebaseAuthException {
+        UserRecord userRecord = firebaseAuth.getUser(uid);
+
+        return userRecord.getCustomClaims();
+
+    }
+
+
+    public Map<String, Object> deleteUserClaims(String uid) throws FirebaseAuthException {
+        UserRecord userRecord = firebaseAuth.getUser(uid);
+        Map<String, Object> claims = userRecord.getCustomClaims();
+
+        Map<String, Object> mutableClaims = new HashMap<>();
+
+        firebaseAuth.setCustomUserClaims(uid, mutableClaims);
+        return mutableClaims;
+
+    }
 
 }

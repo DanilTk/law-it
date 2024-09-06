@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import pl.lawit.application.configuration.SecurityProperties;
@@ -42,7 +41,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        FirebaseAuthenticationFilter firebaseAuthFilter = new FirebaseAuthenticationFilter("/api/**");
+        FirebaseAuthenticationFilter firebaseAuthFilter = new FirebaseAuthenticationFilter("/**");
 
         http
                 .csrf(AbstractHttpConfigurer::disable)

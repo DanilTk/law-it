@@ -4,6 +4,7 @@ import io.vavr.collection.List;
 import io.vavr.collection.Set;
 import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import pl.lawit.kernel.model.ApplicationUserRole;
 
@@ -11,9 +12,13 @@ import pl.lawit.kernel.model.ApplicationUserRole;
 @RequiredArgsConstructor
 public class UserRoleResolver {
 
+	public ApplicationUserRole resolveUserRole(String roleName) {
+		return resolveRole(roleName).getOrNull();
+	}
+
 	public Set<ApplicationUserRole> resolveUserRoles(List<String> roleNames) {
 		return roleNames.flatMap(this::resolveRole)
-			.toSet();
+				.toSet();
 	}
 
 	private Option<ApplicationUserRole> resolveRole(String groupName) {
@@ -23,5 +28,4 @@ public class UserRoleResolver {
 			return Option.none();
 		}
 	}
-
 }

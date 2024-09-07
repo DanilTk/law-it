@@ -133,7 +133,6 @@ application:
       - /management/**
       - /actuator/**
       - /public/**
-      - /api/users/**
   api-groups:
     cases-api-group:
       - /cases/**

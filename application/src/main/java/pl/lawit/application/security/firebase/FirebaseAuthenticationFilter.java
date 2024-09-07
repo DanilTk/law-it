@@ -7,6 +7,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -21,9 +23,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Component
+@RequiredArgsConstructor
 public class FirebaseAuthenticationFilter extends OncePerRequestFilter {
 
+    private final FirebaseAuth firebaseAuth;
 
     @Override
     protected void doFilterInternal(
@@ -31,7 +36,7 @@ public class FirebaseAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
 
-        String idToken = request.getHeader("Authorization");
+        String idToken = extractToken(request);
 
         if (idToken == null || idToken.isEmpty()) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Missing Firebase ID-Token");
@@ -39,13 +44,13 @@ public class FirebaseAuthenticationFilter extends OncePerRequestFilter {
         }
 
         try {
-            FirebaseToken token = FirebaseAuth.getInstance().verifyIdToken(idToken.replace("Bearer ", ""));
+            FirebaseToken token = firebaseAuth.verifyIdToken(idToken);
 
-            String role = (String) token.getClaims().get("Role");
+            String role = (String) token.getClaims().get("role");
             List<GrantedAuthority> authorities = new ArrayList<>();
 
             if (role != null) {
-                authorities.add(new SimpleGrantedAuthority(role));
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
             }
 
             FirebaseAuthenticationToken authenticationToken = new FirebaseAuthenticationToken(idToken, token, authorities);
@@ -57,5 +62,14 @@ public class FirebaseAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+
+
+    private String extractToken(HttpServletRequest request) {
+        String idToken = request.getHeader("Authorization");
+        if (idToken != null && idToken.startsWith("Bearer ")) {
+            return idToken.substring(7); // Remove "Bearer " prefix
+        }
+        return null;
     }
 }

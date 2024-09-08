@@ -8,11 +8,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 import pl.lawit.application.security.JwtClaimResolver;
-import pl.lawit.application.security.UserRoleResolver;
+import pl.lawit.idp.firebase.UserRoleResolver;
 import pl.lawit.kernel.model.ApplicationUserRole;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 
 @Component

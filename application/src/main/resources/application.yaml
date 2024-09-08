@@ -146,6 +146,8 @@ application:
       - /users/**
     files-api-group:
       - /files/**
+    admin-api-group:
+      - /admin/**
 
 springdoc:
   api-docs:

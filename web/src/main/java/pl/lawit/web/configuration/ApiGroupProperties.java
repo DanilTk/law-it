@@ -21,4 +21,6 @@ public class ApiGroupProperties {
 
 	private Set<String> filesApiGroup;
 
+	private Set<String> adminApiGroup;
+
 }

@@ -24,7 +24,7 @@ public class EmailClient {
 
 	private static final String PLACEHOLDER = "";
 
-	private final JavaMailSender sender = null;
+	private final JavaMailSender sender = null;//todo:fix
 
 	@Value("${application.email.enabled:false}")
 	private boolean isEmailClientEnabled;

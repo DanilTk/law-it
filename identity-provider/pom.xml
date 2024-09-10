@@ -8,24 +8,24 @@
     <version>${revision}</version>
   </parent>
 
-  <artifactId>domain</artifactId>
+  <artifactId>identity-provider</artifactId>
 
   <dependencies>
     <dependency>
-      <groupId>com.itextpdf</groupId>
-      <artifactId>itextpdf</artifactId>
+      <groupId>com.google.firebase</groupId>
+      <artifactId>firebase-admin</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.pdfbox</groupId>
-      <artifactId>pdfbox</artifactId>
+      <groupId>pl.lawit</groupId>
+      <artifactId>domain</artifactId>
+      <version>${revision}</version>
     </dependency>
 
     <dependency>
       <groupId>pl.lawit</groupId>
       <artifactId>shared-kernel</artifactId>
       <version>${revision}</version>
-      <scope>compile</scope>
     </dependency>
   </dependencies>
 

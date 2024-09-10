@@ -1,12 +1,20 @@
 spring:
-#  cloud:
-#    gcp:
-#      storage:
-#        project-id: placeholder
-#        bucket-name: placeholder
-#        domain: https://storage.googleapis.com/
-#        credentials:
-#          location: placeholder
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://www.googleapis.com/service_accounts/v1/jwk/fir-poc-b1a3d
+          issuer-uri: https://securetoken.google.com/fir-poc-b1a3d
+  thymeleaf:
+    check-template-location: false
+  cloud:
+    gcp:
+      storage:
+        project-id: ${GCP_PROJECT_ID}
+        bucket-name: ${GCP_BUCKET_NAME}
+        domain: https://storage.googleapis.com/
+        credentials:
+          location: ${GCP_CREDENTIALS_LOCATION}
   cache:
     cache-names:
       - rate-limit-files-bucket-cache
@@ -74,3 +82,78 @@ bucket4j:
             - capacity: 10
               time: 1
               unit: minutes
+
+management:
+  metrics:
+    distribution:
+      sla:
+        http:
+          server:
+            requests: 50ms
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+    tags:
+      application: ${spring.application.name}
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+      defaults:
+        enabled: false
+      db:
+        enabled: true
+      diskspace:
+        enabled: true
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    metrics:
+      export:
+        step: 10s
+    tracing:
+      export:
+        step: 10s
+
+application:
+  server-url: ${SERVER_URL}
+  version: @project.version@
+  security:
+    firebase:
+      storage-account-key: ${FIREBASE_STORAGE_ACCOUNT_KEY}
+      db-url: https://fir-poc-b1a3d-default-rtdb.firebaseio.com/
+    permitted-matchers:
+      - /api-docs/**
+      - /swagger-ui/**
+      - /management/**
+      - /actuator/**
+      - /public/**
+  api-groups:
+    cases-api-group:
+      - /cases/**
+    templates-api-group:
+      - /templates/**
+    meetings-api-group:
+      - /meetings/**
+    accounts-api-group:
+      - /companies/**
+      - /lawyers/**
+      - /users/**
+    files-api-group:
+      - /files/**
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    oauth:
+      client-id: placeholder
+      client-secret: placeholder
+    oauth2-redirect-url: ${application.server-url}/swagger-ui/oauth2-redirect.html
+    persist-authorization: true
+    operations-sorter: method

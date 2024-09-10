@@ -4,5 +4,5 @@ public enum ObjectFieldName {
 	UUID,
 	EMAIL,
 	TOKEN,
-	SUB,
+	UID,
 }

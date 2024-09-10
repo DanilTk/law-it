@@ -27,11 +27,6 @@
       <version>${revision}</version>
       <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>com.google.firebase</groupId>
-      <artifactId>firebase-admin</artifactId>
-    </dependency>
-
   </dependencies>
 
 </project>

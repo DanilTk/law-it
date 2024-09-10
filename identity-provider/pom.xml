@@ -21,6 +21,12 @@
       <artifactId>domain</artifactId>
       <version>${revision}</version>
     </dependency>
+
+    <dependency>
+      <groupId>pl.lawit</groupId>
+      <artifactId>shared-kernel</artifactId>
+      <version>${revision}</version>
+    </dependency>
   </dependencies>
 
 </project>

@@ -1,24 +1,23 @@
 package pl.lawit.domain.provider;
 
-import com.google.firebase.auth.FirebaseAuthException;
 import io.vavr.collection.Set;
-import pl.lawit.domain.PageResultFireBase;
 import pl.lawit.domain.model.ApplicationUser;
 import pl.lawit.kernel.model.ApplicationUserRole;
 import pl.lawit.kernel.model.EmailAddress;
+import pl.lawit.kernel.model.TokenizedPageResult;
 
 public interface IdpProvider {
 
-    ApplicationUser getBySub(String sub) throws FirebaseAuthException;
+	ApplicationUser getByUid(String uid);
 
-    ApplicationUser getByEmail(EmailAddress email) throws FirebaseAuthException;
+	ApplicationUser getByEmail(EmailAddress email);
 
-    Set<ApplicationUserRole> getUserRoles(String sub) throws FirebaseAuthException;
+	Set<ApplicationUserRole> getUserRoles(String uid);
 
-    PageResultFireBase<ApplicationUser> findPage(String pageToken, int pageSize) throws FirebaseAuthException;
+	TokenizedPageResult<ApplicationUser> findPage(String pageToken, int pageSize);
 
-    ApplicationUser updateUserAccess(String sub, ApplicationUserRole role) throws FirebaseAuthException;
+	ApplicationUser addUserRole(String uid, ApplicationUserRole role);
 
-    void revokeUserAccess(String sub) throws FirebaseAuthException;
+	void revokeUserAccess(String uid);
 
 }

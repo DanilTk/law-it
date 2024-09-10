@@ -3,15 +3,10 @@ package pl.lawit.kernel.exception;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -60,12 +55,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return baseErrorResponseDtoFactory.createInvalidInputError(uuid);
 	}
 
-//	@ResponseStatus(UNAUTHORIZED)
-//	@ExceptionHandler({AccessDeniedException.class, NoPermissionException.class})
-//	public BaseErrorResponseDto handleException(AccessDeniedException exception) {
-//		UUID uuid = logException(exception);
-//		return baseErrorResponseDtoFactory.createAccessDenied(uuid);
-//	}
+	@ResponseStatus(UNAUTHORIZED)
+	@ExceptionHandler({AccessDeniedException.class, NoPermissionException.class})
+	public BaseErrorResponseDto handleException(AccessDeniedException exception) {
+		UUID uuid = logException(exception);
+		return baseErrorResponseDtoFactory.createAccessDenied(uuid);
+	}
 
 	@ResponseStatus(NOT_FOUND)
 	@ExceptionHandler(ObjectNotFoundException.class)
@@ -79,11 +74,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 															 HttpStatusCode statusCode, WebRequest request) {
 		log.error("Caught Spring exception:", exception);
 		ResponseEntity<Object> defaultResponse = super.handleExceptionInternal(
-				exception,
-				body,
-				headers,
-				statusCode,
-				request
+			exception,
+			body,
+			headers,
+			statusCode,
+			request
 		);
 		Object responseBody = createBodyForSpringException(exception);
 		return new ResponseEntity<>(responseBody, defaultResponse.getHeaders(), defaultResponse.getStatusCode());
@@ -111,21 +106,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return uuid;
 	}
 
-	@ExceptionHandler(AccessDeniedException.class)
-	public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException ex) {
-		SecurityContext securityContext = SecurityContextHolder.getContext();
-		Authentication authentication = securityContext.getAuthentication();
-
-		if (authentication != null) {
-			log.info("User '{}' with roles {} attempted to access the protected URL",
-					authentication.getName(),
-					authentication.getAuthorities()
-			);
-		}
-
-			String responseMessage = String.format("Access Denied: User '%s' with roles %s attempted to access a protected resource. %s",
-					authentication.getName(), authentication.getAuthorities(), ex.getMessage());
-
-			return new ResponseEntity<>(responseMessage, HttpStatus.FORBIDDEN);
-		}
 }

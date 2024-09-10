@@ -24,5 +24,4 @@ public record TokenizedPageResult<T>(
 			.build();
 	}
 
-
 }

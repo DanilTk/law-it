@@ -3,7 +3,6 @@ package pl.lawit.web.handler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import pl.lawit.domain.command.FileStorageCommand.UploadFileCommand;
 import pl.lawit.domain.model.RegisteredFile;
 import pl.lawit.domain.service.FileService;
 import pl.lawit.kernel.authentication.AuthenticatedUser;
@@ -14,6 +13,8 @@ import pl.lawit.web.mapper.FileDtoMapper;
 import pl.lawit.web.validation.FileValidator;
 
 import java.util.UUID;
+
+import static pl.lawit.domain.command.FileStorageCommand.UploadFileCommand;
 
 @Component
 @RequiredArgsConstructor

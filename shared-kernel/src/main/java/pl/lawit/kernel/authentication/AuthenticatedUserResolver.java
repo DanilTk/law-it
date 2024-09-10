@@ -57,7 +57,7 @@ public class AuthenticatedUserResolver {
 			userDetails = userDetailsOption.get();
 		}
 
-		Set<ApplicationUserRole> userRoles = jwtClaimResolver.getUserRoles(jwt);
+		Set<ApplicationUserRole> userRoles = HashSet.ofAll(jwtClaimResolver.getUserRoles(jwt));
 		return new AuthenticatedUser(idpSub, userDetails.uuid(), userRoles);
 	}
 

@@ -47,6 +47,12 @@
 
     <dependency>
       <groupId>pl.lawit</groupId>
+      <artifactId>reporting</artifactId>
+      <version>${revision}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>pl.lawit</groupId>
       <artifactId>scheduler</artifactId>
       <version>${revision}</version>
     </dependency>

@@ -25,6 +25,7 @@
     <module>scheduler</module>
     <module>shared-kernel</module>
     <module>identity-provider</module>
+    <module>reporting</module>
   </modules>
 
   <properties>
@@ -39,7 +40,6 @@
     <openapi.version>2.6.0</openapi.version>
     <mapstruct.version>1.6.0</mapstruct.version>
     <jasypt.version>3.0.5</jasypt.version>
-    <itextpdf.version>5.5.13.4</itextpdf.version>
     <pdfbox.version>3.0.3</pdfbox.version>
     <vavr.version>0.10.4</vavr.version>
     <vavr.jackson.version>0.10.3</vavr.jackson.version>
@@ -50,7 +50,6 @@
 
   <dependencyManagement>
     <dependencies>
-
       <dependency>
         <groupId>com.giffing.bucket4j.spring.boot.starter</groupId>
         <artifactId>bucket4j-spring-boot-starter</artifactId>
@@ -76,16 +75,11 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+
       <dependency>
         <groupId>com.google.firebase</groupId>
         <artifactId>firebase-admin</artifactId>
         <version>${firebase.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.itextpdf</groupId>
-        <artifactId>itextpdf</artifactId>
-        <version>${itextpdf.version}</version>
       </dependency>
 
       <dependency>
@@ -159,7 +153,6 @@
   </dependencyManagement>
 
   <dependencies>
-
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>

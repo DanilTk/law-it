@@ -1,0 +1,79 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-registered-file
+      author: Dan Tkachenko
+      changes:
+        - createTable:
+            tableName: registered_file
+            columns:
+              - column:
+                  name: uuid
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: version
+                  type: integer
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  defaultValueComputed: current_timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  defaultValueComputed: current_timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_registered_file_created_by_to_application_user_uuid
+                    referencedColumnNames: uuid
+                    referencedTableName: application_user
+              - column:
+                  name: updated_by
+                  type: uuid
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_registered_file_updated_by_to_application_user_uuid
+                    referencedColumnNames: uuid
+                    referencedTableName: application_user
+              - column:
+                  name: mime_type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: original_file_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: file_path
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: file_url
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: file_size
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: md5_checksum
+                  type: varchar(32)
+                  constraints:
+                    nullable: false

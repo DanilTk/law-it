@@ -59,9 +59,9 @@ databaseChangeLog:
                   type: uuid
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_case_attachment_file_uuid_to_stored_file_uuid
+                    foreignKeyName: fk_case_attachment_file_uuid_to_registered_file_uuid
                     referencedColumnNames: uuid
-                    referencedTableName: stored_file
+                    referencedTableName: registered_file
               - column:
                   name: attachment_type
                   type: varchar(50)

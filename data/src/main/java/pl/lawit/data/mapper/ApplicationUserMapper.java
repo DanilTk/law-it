@@ -18,11 +18,11 @@ public abstract class ApplicationUserMapper extends BaseMapper {
 
 	@Mapping(target = "uuid", expression = "java(uuidProvider.getUuid())")
 	@Mapping(target = "createdAt", expression = "java(timeProvider.getInstant())")
+	@Mapping(target = "version", ignore = true)
 	@Mapping(target = "idpSub", source = "idpSub")
 	@Mapping(target = "email", source = "email.value")
 	@Mapping(target = "isIdpUser", constant = "true")
 	@Mapping(target = "lastSyncAt", ignore = true)
-	@Mapping(target = "version", ignore = true)
 	@Mapping(target = "lastLoginAt", ignore = true)
 	public abstract ApplicationUserEntity mapToEntity(String idpSub, EmailAddress email);
 

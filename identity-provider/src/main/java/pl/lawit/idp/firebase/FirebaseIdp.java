@@ -130,7 +130,7 @@ public class FirebaseIdp implements IdpProvider {
 		List<String> claimValues = List.of(value);
 
 		for (Map.Entry<String, Object> entry : customClaims.entrySet()) {
-			if (entry.getKey().equals("role")) {
+			if (entry.getKey().equals(ROLE_CLAIM.getKey())) {
 				mutableClaims.put(entry.getKey(), claimValues);
 			} else {
 				mutableClaims.put(entry.getKey(), entry.getValue());

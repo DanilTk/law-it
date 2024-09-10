@@ -1,27 +1,23 @@
 package pl.lawit.domain.provider;
 
 import io.vavr.collection.Set;
-import io.vavr.control.Option;
-import pl.lawit.domain.command.PageCommandQuery;
 import pl.lawit.domain.model.ApplicationUser;
 import pl.lawit.kernel.model.ApplicationUserRole;
 import pl.lawit.kernel.model.EmailAddress;
-import pl.lawit.kernel.model.PageResult;
+import pl.lawit.kernel.model.TokenizedPageResult;
 
 public interface IdpProvider {
 
-	ApplicationUser getBySub(String sub);
+	ApplicationUser getByUid(String uid);
 
 	ApplicationUser getByEmail(EmailAddress email);
 
-	Set<ApplicationUserRole> getUserRoles(String sub);
+	Set<ApplicationUserRole> getUserRoles(String uid);
 
-	Option<ApplicationUser> findByEmail(EmailAddress email);
+	TokenizedPageResult<ApplicationUser> findPage(String pageToken, int pageSize);
 
-	PageResult<ApplicationUser> findPage(PageCommandQuery commandQuery);
+	ApplicationUser addUserRole(String uid, ApplicationUserRole role);
 
-	ApplicationUser updateUserAccess(String sub, ApplicationUserRole role);
-
-	void revokeUserAccess(String sub);
+	void revokeUserAccess(String uid);
 
 }

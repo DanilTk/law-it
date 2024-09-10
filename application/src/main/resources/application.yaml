@@ -133,7 +133,6 @@ application:
       - /management/**
       - /actuator/**
       - /public/**
-      - /**
   api-groups:
     cases-api-group:
       - /cases/**
@@ -152,9 +151,6 @@ springdoc:
   api-docs:
     path: /api-docs
   swagger-ui:
-    oauth:
-      client-id: placeholder
-      client-secret: placeholder
     oauth2-redirect-url: ${application.server-url}/swagger-ui/oauth2-redirect.html
     persist-authorization: true
     operations-sorter: method

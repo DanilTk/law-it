@@ -50,7 +50,7 @@ public class ApplicationUserRepositoryDb implements ApplicationUserRepository {
 	@Transactional(readOnly = true, propagation = MANDATORY)
 	public ApplicationUser getBySub(String sub) {
 		return findBySub(sub)
-			.getOrElseThrow(() -> ObjectNotFoundException.bySub(sub, ApplicationUser.class));
+			.getOrElseThrow(() -> ObjectNotFoundException.byUid(sub, ApplicationUser.class));
 	}
 
 	@Override

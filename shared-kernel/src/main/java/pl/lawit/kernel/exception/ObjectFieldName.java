@@ -5,5 +5,5 @@ public enum ObjectFieldName {
 	TEMPLATE_NAME,
 	EMAIL,
 	TOKEN,
-	SUB,
+	UID,
 }

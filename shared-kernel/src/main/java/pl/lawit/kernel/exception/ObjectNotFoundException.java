@@ -9,7 +9,7 @@ import org.springframework.lang.Nullable;
 import java.util.UUID;
 
 import static pl.lawit.kernel.exception.ObjectFieldName.EMAIL;
-import static pl.lawit.kernel.exception.ObjectFieldName.SUB;
+import static pl.lawit.kernel.exception.ObjectFieldName.UID;
 
 @Slf4j
 @Getter
@@ -35,12 +35,8 @@ public class ObjectNotFoundException extends BaseException {
 		return create(String.valueOf(uuid), ObjectFieldName.UUID, objectClass.getSimpleName());
 	}
 
-	public static ObjectNotFoundException byTemplateName(@Nullable String name, @NonNull Class<?> objectClass) {
-		return create(String.valueOf(name), ObjectFieldName.TEMPLATE_NAME, objectClass.getSimpleName());
-	}
-
-	public static ObjectNotFoundException bySub(@Nullable String sub, @NonNull Class<?> objectClass) {
-		return create(sub, SUB, objectClass.getSimpleName());
+	public static ObjectNotFoundException byUid(@Nullable String uid, @NonNull Class<?> objectClass) {
+		return create(uid, UID, objectClass.getSimpleName());
 	}
 
 	public static ObjectNotFoundException byFieldName(@Nullable String fieldValue,

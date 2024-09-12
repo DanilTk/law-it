@@ -3,7 +3,9 @@ package pl.lawit.web.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,7 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
+import static pl.lawit.web.configuration.OpenApiConfiguration.SECURITY_SCHEME_NAME;
 import static pl.lawit.web.util.ApiVersioning.LI_WEB_API_JSON_V1;
 
 @RestController
@@ -38,8 +41,8 @@ public class FileController {
 		@ApiResponse(responseCode = "429", description = "Too Many Requests"),
 		@ApiResponse(responseCode = "500", description = "Internal Server Error")
 	})
-//	@SecurityRequirement(name = SECURITY_OAUTH2)
-//	@PreAuthorize("hasAnyRole('CLIENT_USER', 'LAWYER_USER', 'SUPPORT_USER')")
+	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
+	@PreAuthorize("hasAnyRole('CLIENT_USER', 'LAWYER_USER', 'SUPPORT_USER')")
 	public FileResponseDto uploadFile(@RequestPart("file") MultipartFile file) {
 		return handler.uploadFile(file);
 	}
@@ -52,8 +55,8 @@ public class FileController {
 		@ApiResponse(responseCode = "404", description = "Object not found"),
 		@ApiResponse(responseCode = "500", description = "Internal Server Error")
 	})
-//	@SecurityRequirement(name = SECURITY_OAUTH2)
-//	@PreAuthorize("hasRole('ADMIN_USER')")
+	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
+	@PreAuthorize("hasRole('ADMIN_USER')")
 	public FileResponseDto getFileById(@PathVariable("fileId") UUID uuid) {
 		return handler.getFileByUuid(uuid);
 	}
@@ -67,8 +70,8 @@ public class FileController {
 		@ApiResponse(responseCode = "409", description = "Conflict: Object is in use"),
 		@ApiResponse(responseCode = "500", description = "Internal Server Error")
 	})
-//	@SecurityRequirement(name = SECURITY_OAUTH2)
-//	@PreAuthorize("hasRole('ADMIN_USER')")
+	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
+	@PreAuthorize("hasRole('ADMIN_USER')")
 	@ResponseStatus(NO_CONTENT)
 	public void deleteFile(@PathVariable("fileId") UUID uuid) {
 		handler.deleteFile(uuid);

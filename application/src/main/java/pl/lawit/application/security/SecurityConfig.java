@@ -21,6 +21,7 @@ import pl.lawit.application.configuration.SecurityProperties;
 import pl.lawit.kernel.authentication.JwtClaimResolver;
 
 import static org.springframework.security.config.Customizer.withDefaults;
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @EnableWebSecurity
 @Configuration
@@ -44,6 +45,7 @@ public class SecurityConfig {
 					.authenticated())
 			.cors(withDefaults())
 			.csrf(AbstractHttpConfigurer::disable)
+			.sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
 			.oauth2ResourceServer($ -> $.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
 
 		return http.build();

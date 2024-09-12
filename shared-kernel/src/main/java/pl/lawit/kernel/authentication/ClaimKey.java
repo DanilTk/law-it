@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum ClaimKey {
-	ROLE_CLAIM("role");
+	ROLE_CLAIM("roles");
 
 	private final String key;
 

@@ -10,8 +10,8 @@ import static pl.lawit.web.util.ApiVersioning.LI_WEB_API_JSON_V1;
 @RestController
 @RequestMapping(value = "/cases", produces = LI_WEB_API_JSON_V1)
 @RequiredArgsConstructor
-public class CaseController {
+public class CaseController implements BaseController {
 
-	private final CaseHandler caseHandler;
+	private final CaseHandler handler;
 
 }

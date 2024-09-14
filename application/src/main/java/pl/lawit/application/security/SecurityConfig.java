@@ -36,6 +36,10 @@ public class SecurityConfig {
 
 	private final SecurityProperties securityProperties;
 
+	private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+
+	private final CustomAccessDeniedHandler accessDeniedHandler;
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
@@ -46,7 +50,13 @@ public class SecurityConfig {
 			.cors(withDefaults())
 			.csrf(AbstractHttpConfigurer::disable)
 			.sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-			.oauth2ResourceServer($ -> $.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
+			.oauth2ResourceServer($ -> $.jwt(jwt -> {
+				jwt.jwtAuthenticationConverter(jwtAuthenticationConverter());
+				$.authenticationEntryPoint(authenticationEntryPoint);
+			}))
+			.exceptionHandling($ -> {
+				$.accessDeniedHandler(accessDeniedHandler);
+			});
 
 		return http.build();
 	}

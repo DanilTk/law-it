@@ -20,7 +20,7 @@ public record ApplicationUser(
 	boolean isIdpUser,
 
 	@NonNull
-	String idpSub,
+	String idpUid,
 
 	@NonNull
 	Instant createdAt

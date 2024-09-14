@@ -9,7 +9,7 @@ public record ApplicationUserDetails(
 
 	UUID uuid,
 
-	String sub
+	String idpUid
 
 ) {
 }

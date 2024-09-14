@@ -9,7 +9,7 @@ import io.vavr.collection.List;
 import io.vavr.collection.Set;
 import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import pl.lawit.domain.model.ApplicationUser;
 import pl.lawit.domain.provider.IdpProvider;
@@ -24,9 +24,10 @@ import pl.lawit.kernel.model.TokenizedPageResult;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.google.firebase.auth.UserRecord.CreateRequest;
 import static pl.lawit.kernel.authentication.ClaimKey.ROLE_CLAIM;
+import static pl.lawit.kernel.logger.ApplicationLoggerFactory.userLogger;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class FirebaseIdp implements IdpProvider {
@@ -36,9 +37,38 @@ public class FirebaseIdp implements IdpProvider {
 	private final UserRoleResolver userRoleResolver;
 
 	@Override
+	public ApplicationUser createUser(EmailAddress emailAddress) {
+		CreateRequest request = new CreateRequest()
+			.setEmail(emailAddress.value())
+			.setEmailVerified(false);
+
+		try {
+			UserRecord userRecord = firebaseAuth.createUser(request);
+			return ApplicationUserMapper.map(userRecord);
+		} catch (FirebaseAuthException e) {
+			throw new IdpProviderException(String.format("Error creating user for email: %s", emailAddress.value()));
+		}
+
+	}
+
+	@Override
 	public ApplicationUser getByUid(String uid) {
 		UserRecord userRecord = getUserRecordByUid(uid);
 		return ApplicationUserMapper.map(userRecord);
+	}
+
+	@Override
+	public Option<ApplicationUser> findByEmail(EmailAddress email) {
+		UserRecord userRecord;
+
+		try {
+			userRecord = firebaseAuth.getUserByEmail(email.value());
+		} catch (FirebaseAuthException e) {
+			return Option.none();
+		}
+
+		ApplicationUser applicationUser = ApplicationUserMapper.map(userRecord);
+		return Option.of(applicationUser);
 	}
 
 	@Override
@@ -48,7 +78,7 @@ public class FirebaseIdp implements IdpProvider {
 		try {
 			userRecord = firebaseAuth.getUserByEmail(email.value());
 		} catch (FirebaseAuthException e) {
-			log.error("Error fetching user for email '{}': {}", email.value(), e.getMessage(), e);
+			userLogger().error("Error fetching user for email '{}': {}", email.value(), e.getMessage(), e);
 			throw ObjectNotFoundException.byEmail(email.value(), ApplicationUser.class);
 		}
 
@@ -74,7 +104,7 @@ public class FirebaseIdp implements IdpProvider {
 
 		return TokenizedPageResult.<ApplicationUser>builder()
 			.content(applicationUserList)
-			.nextPageToken(Option.of(page.getNextPageToken()))
+			.nextPageToken(Option.of(StringUtils.trimToNull(page.getNextPageToken())))
 			.build();
 	}
 
@@ -144,7 +174,7 @@ public class FirebaseIdp implements IdpProvider {
 		try {
 			return firebaseAuth.getUser(uid);
 		} catch (FirebaseAuthException e) {
-			log.error("Error fetching user for sub '{}': {}", uid, e.getMessage(), e);
+			userLogger().error("Error fetching user for uid '{}': {}", uid, e.getMessage(), e);
 			throw ObjectNotFoundException.byUid(uid, ApplicationUser.class);
 		}
 	}

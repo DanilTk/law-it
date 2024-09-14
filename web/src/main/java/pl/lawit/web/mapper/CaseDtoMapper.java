@@ -1,15 +1,14 @@
 package pl.lawit.web.mapper;
 
+import lombok.experimental.UtilityClass;
 import pl.lawit.domain.model.Case;
 
 import static pl.lawit.web.dto.CaseDto.CaseResponseDto;
 
-public class CaseDtoMapper {
+@UtilityClass
+public final class CaseDtoMapper {
 
-	private CaseDtoMapper() {
-	}
-
-	public CaseResponseDto map(Case legalCase) {
+	public static CaseResponseDto map(Case legalCase) {
 		return CaseResponseDto.builder()
 			.id(legalCase.uuid())
 			.caseStatus(legalCase.caseStatus())

@@ -51,8 +51,6 @@ public class CaseRepositoryDb implements CaseRepository {
 
 	private final PageResultFactory pageResultFactory;
 
-	private final PageableFactory pageableFactory;
-
 	@Override
 	@Transactional(propagation = MANDATORY)
 	public Case create(CreateCase command) {
@@ -178,10 +176,10 @@ public class CaseRepositoryDb implements CaseRepository {
 		caseRepositoryJpa.deleteById(uuid);
 	}
 
-	private Pageable getPageable(PageCommandQuery pageQuery) {
+	private Pageable getPageable(PageCommandQuery commandQuery) {
 		Sort sort = Sort.by(Sort.Direction.DESC, BaseEntity_.CREATED_AT);
 
-		return pageableFactory.create(pageQuery, sort);
+		return PageableFactory.create(commandQuery, sort);
 	}
 
 }

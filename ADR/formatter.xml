@@ -1,0 +1,47 @@
+<code_scheme name="application-formatter" version="173">
+	<option name="FORMATTER_TAGS_ENABLED" value="true"/>
+	<GroovyCodeStyleSettings>
+		<option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="999"/>
+		<option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="999"/>
+	</GroovyCodeStyleSettings>
+	<JavaCodeStyleSettings>
+		<option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="999"/>
+		<option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="999"/>
+	</JavaCodeStyleSettings>
+	<OracleCodeStyleSettings version="6">
+		<option name="USE_GENERIC_STYLE" value="true"/>
+	</OracleCodeStyleSettings>
+	<XML>
+		<option name="XML_TEXT_WRAP" value="0"/>
+	</XML>
+	<codeStyleSettings language="Groovy">
+		<option name="WRAP_ON_TYPING" value="0"/>
+		<indentOptions>
+			<option name="CONTINUATION_INDENT_SIZE" value="4"/>
+			<option name="USE_TAB_CHARACTER" value="true"/>
+		</indentOptions>
+	</codeStyleSettings>
+	<codeStyleSettings language="JAVA">
+		<option name="KEEP_BLANK_LINES_IN_DECLARATIONS" value="1"/>
+		<option name="KEEP_BLANK_LINES_IN_CODE" value="1"/>
+		<option name="KEEP_BLANK_LINES_BETWEEN_PACKAGE_DECLARATION_AND_HEADER" value="1"/>
+		<option name="KEEP_BLANK_LINES_BEFORE_RBRACE" value="1"/>
+		<option name="WRAP_LONG_LINES" value="true"/>
+		<option name="WRAP_ON_TYPING" value="0"/>
+		<indentOptions>
+			<option name="CONTINUATION_INDENT_SIZE" value="4"/>
+			<option name="USE_TAB_CHARACTER" value="true"/>
+		</indentOptions>
+	</codeStyleSettings>
+	<codeStyleSettings language="SQL">
+		<indentOptions>
+			<option name="USE_TAB_CHARACTER" value="true"/>
+		</indentOptions>
+	</codeStyleSettings>
+	<codeStyleSettings language="XML">
+		<indentOptions>
+			<option name="CONTINUATION_INDENT_SIZE" value="4"/>
+			<option name="USE_TAB_CHARACTER" value="true"/>
+		</indentOptions>
+	</codeStyleSettings>
+</code_scheme>

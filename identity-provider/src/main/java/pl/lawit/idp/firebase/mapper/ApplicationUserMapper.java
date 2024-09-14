@@ -17,10 +17,9 @@ public class ApplicationUserMapper {
 
 		return ApplicationUser.builder()
 			.uuid(Option.none())
-			.idpSub(userRecord.getUid())
+			.idpUid(userRecord.getUid())
 			.email(EmailAddress.of(userRecord.getEmail()))
 			.isIdpUser(true)
-			.idpSub(userRecord.getUid())
 			.createdAt(createdAt)
 			.build();
 	}

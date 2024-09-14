@@ -36,7 +36,7 @@ import static pl.lawit.web.util.ApiVersioning.LI_WEB_API_JSON_V1;
 @RestController
 @RequestMapping(value = "/companies", produces = LI_WEB_API_JSON_V1)
 @RequiredArgsConstructor
-public class CompanyController {
+public class CompanyController implements BaseController {
 
 	private final CompanyHandler handler;
 
@@ -44,13 +44,11 @@ public class CompanyController {
 	@PostMapping
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "201", description = "Company profile created successfully"),
-		@ApiResponse(responseCode = "400", description = "Invalid input"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "400", description = "Invalid input")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
-	public CompanyResponseDto createCompany(@Valid @RequestBody CreateCompanyRequestDto dto) {
+	CompanyResponseDto createCompany(@Valid @RequestBody CreateCompanyRequestDto dto) {
 		return handler.createCompany(dto);
 	}
 
@@ -59,14 +57,12 @@ public class CompanyController {
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Lawyer assigned to company successfully"),
 		@ApiResponse(responseCode = "400", description = "Invalid input"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "404", description = "Object not found"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "404", description = "Object not found")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
-	public LawyerResponseDto addLawyerToCompany(@PathVariable("companyId") UUID companyUuid,
-												@PathVariable("lawyerId") UUID lawyerUuid) {
+	LawyerResponseDto addLawyerToCompany(@PathVariable("companyId") UUID companyUuid,
+										 @PathVariable("lawyerId") UUID lawyerUuid) {
 		return handler.addCompanyLawyer(companyUuid, lawyerUuid);
 	}
 
@@ -75,26 +71,22 @@ public class CompanyController {
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Successfully retrieved company lawyers"),
 		@ApiResponse(responseCode = "400", description = "Invalid input"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "404", description = "Object not found"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "404", description = "Object not found")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
-	@PreAuthorize("hasAnyRole('ADMIN_USER', 'SUPPORT_USER', 'BASIC_USER')")
-	public ListResponseDto<LawyerResponseDto> getCompanyLawyers(@PathVariable("companyId") UUID uuid) {
+	@PreAuthorize("hasAnyRole('ADMIN_USER', 'BASIC_USER')")
+	ListResponseDto<LawyerResponseDto> getCompanyLawyers(@PathVariable("companyId") UUID uuid) {
 		return handler.getCompanyLawyers(uuid);
 	}
 
 	@Operation(summary = "Get page of company profiles")
 	@GetMapping
 	@ApiResponses(value = {
-		@ApiResponse(responseCode = "200", description = "Successfully retrieved companies"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "200", description = "Successfully retrieved companies")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
-	public PageResponseDto<CompanyResponseDto> getCompaniesPage(@Valid @ParameterObject PageableRequestDto dto) {
+	PageResponseDto<CompanyResponseDto> getCompaniesPage(@Valid @ParameterObject PageableRequestDto dto) {
 		return handler.findCompaniesPage(dto);
 	}
 
@@ -102,13 +94,11 @@ public class CompanyController {
 	@GetMapping("/{companyId}")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Successfully retrieved the company"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "404", description = "Object not found"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "404", description = "Object not found")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
-	public CompanyResponseDto getCompanyById(@PathVariable("companyId") UUID uuid) {
+	CompanyResponseDto getCompanyById(@PathVariable("companyId") UUID uuid) {
 		return handler.getCompanyByUuid(uuid);
 	}
 
@@ -117,14 +107,12 @@ public class CompanyController {
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Company updated successfully"),
 		@ApiResponse(responseCode = "400", description = "Invalid input"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "404", description = "Object not found"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "404", description = "Object not found")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
-	public CompanyResponseDto updateCompany(@PathVariable("companyId") UUID uuid,
-											@Valid @RequestBody UpdateCompanyRequestDto dto) {
+	CompanyResponseDto updateCompany(@PathVariable("companyId") UUID uuid,
+									 @Valid @RequestBody UpdateCompanyRequestDto dto) {
 		return handler.updateCompany(uuid, dto);
 	}
 
@@ -132,14 +120,12 @@ public class CompanyController {
 	@DeleteMapping("/{companyId}")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "204", description = "Company deleted successfully"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "404", description = "Object not found"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "404", description = "Object not found")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
 	@ResponseStatus(NO_CONTENT)
-	public void deleteCompany(@PathVariable("companyId") UUID uuid) {
+	void deleteCompany(@PathVariable("companyId") UUID uuid) {
 		handler.deleteCompany(uuid);
 	}
 
@@ -148,15 +134,13 @@ public class CompanyController {
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "204", description = "Lawyer removed from company successfully"),
 		@ApiResponse(responseCode = "400", description = "Invalid input"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "404", description = "Object not found"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "404", description = "Object not found")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
 	@ResponseStatus(NO_CONTENT)
-	public void removeCompanyLawyer(@PathVariable("companyId") UUID companyUuid,
-									@PathVariable("lawyerId") UUID lawyerUuid) {
+	void removeCompanyLawyer(@PathVariable("companyId") UUID companyUuid,
+							 @PathVariable("lawyerId") UUID lawyerUuid) {
 		handler.removeCompanyLawyer(companyUuid, lawyerUuid);
 	}
 }

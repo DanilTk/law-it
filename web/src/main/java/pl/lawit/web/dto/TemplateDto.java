@@ -1,5 +1,6 @@
 package pl.lawit.web.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +14,7 @@ import lombok.Setter;
 import pl.lawit.domain.model.Language;
 import pl.lawit.domain.model.TemplateCategory;
 
+import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 
@@ -89,7 +91,40 @@ public interface TemplateDto {
 
 		@Schema
 		@NonNull
-		Language templateLanguage
+		Language templateLanguage,
+
+		@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
+		@Schema
+		@NonNull
+		Instant createdAt
+
+	) {
+
+	}
+
+	@Builder(toBuilder = true)
+	record PurchasedDocumentResponseDto(
+
+		@Schema
+		@NonNull
+		UUID id,
+
+		@Schema
+		@NonNull
+		TemplateCategory templateCategory,
+
+		@Schema
+		@NonNull
+		String documentName,
+
+		@Schema
+		@NonNull
+		Language templateLanguage,
+
+		@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
+		@Schema
+		@NonNull
+		Instant purchasedAt
 
 	) {
 

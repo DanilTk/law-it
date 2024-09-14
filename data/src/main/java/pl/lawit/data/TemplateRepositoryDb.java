@@ -12,7 +12,6 @@ import pl.lawit.data.entity.RegisteredFileEntity;
 import pl.lawit.data.jpa.ApplicationUserRepositoryJpa;
 import pl.lawit.data.jpa.DocumentTemplateRepositoryJpa;
 import pl.lawit.data.jpa.RegisteredFileRepositoryJpa;
-import pl.lawit.data.jpa.UserTemplateRepositoryJpa;
 import pl.lawit.data.mapper.DocumentTemplateMapper;
 import pl.lawit.data.specification.TemplateSpecificationFactory;
 import pl.lawit.domain.model.DocumentTemplate;
@@ -27,8 +26,6 @@ import static pl.lawit.domain.command.DocumentTemplateCommand.FindTemplates;
 @Repository
 @RequiredArgsConstructor
 public class TemplateRepositoryDb implements TemplateRepository {
-
-	private final UserTemplateRepositoryJpa userTemplateRepositoryJpa;
 
 	private final DocumentTemplateRepositoryJpa documentTemplateRepositoryJpa;
 

@@ -1,13 +1,12 @@
 package pl.lawit.web.mapper;
 
+import lombok.experimental.UtilityClass;
 import pl.lawit.domain.model.DocumentTemplate;
 
 import static pl.lawit.web.dto.TemplateDto.TemplateResponseDto;
 
-public class TemplateDtoMapper {
-
-	private TemplateDtoMapper() {
-	}
+@UtilityClass
+public final class TemplateDtoMapper {
 
 	public static TemplateResponseDto map(DocumentTemplate documentTemplate) {
 		return TemplateResponseDto.builder()
@@ -15,6 +14,7 @@ public class TemplateDtoMapper {
 			.templateCategory(documentTemplate.templateCategory())
 			.templateLanguage(documentTemplate.languageCode())
 			.templateName(documentTemplate.templateName())
+			.createdAt(documentTemplate.createdAt())
 			.build();
 	}
 

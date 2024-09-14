@@ -1,13 +1,12 @@
 package pl.lawit.web.mapper;
 
 import io.vavr.control.Option;
+import lombok.experimental.UtilityClass;
 import pl.lawit.domain.command.PageCommandQuery;
 import pl.lawit.web.dto.PageableRequestDto;
 
-public class PageCommandMapper {
-
-	private PageCommandMapper() {
-	}
+@UtilityClass
+public final class PageCommandMapper {
 
 	public static PageCommandQuery map(PageableRequestDto dto) {
 		Integer pageIndex = Option.of(dto.getPageIndex())

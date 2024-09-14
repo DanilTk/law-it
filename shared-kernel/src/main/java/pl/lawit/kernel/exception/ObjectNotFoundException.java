@@ -2,7 +2,6 @@ package pl.lawit.kernel.exception;
 
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
 
@@ -10,8 +9,8 @@ import java.util.UUID;
 
 import static pl.lawit.kernel.exception.ObjectFieldName.EMAIL;
 import static pl.lawit.kernel.exception.ObjectFieldName.UID;
+import static pl.lawit.kernel.logger.ApplicationLoggerFactory.rootLogger;
 
-@Slf4j
 @Getter
 public class ObjectNotFoundException extends BaseException {
 
@@ -56,7 +55,7 @@ public class ObjectNotFoundException extends BaseException {
 			objectType != null ? convertedFieldName : "Object", fieldName.toString().toLowerCase(), fieldValue);
 
 		ObjectNotFoundException exception = new ObjectNotFoundException(formatted);
-		log.error(exception.toString());
+		rootLogger().error(exception.toString());
 		return exception;
 	}
 

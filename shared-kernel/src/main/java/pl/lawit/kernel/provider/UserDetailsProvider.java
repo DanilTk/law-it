@@ -2,15 +2,12 @@ package pl.lawit.kernel.provider;
 
 import io.vavr.control.Option;
 import pl.lawit.kernel.authentication.ApplicationUserDetails;
-import pl.lawit.kernel.model.EmailAddress;
 
 public interface UserDetailsProvider {
 
-	Option<ApplicationUserDetails> findBySub(String sub);
+	Option<ApplicationUserDetails> findByUid(String uib);
 
-	ApplicationUserDetails syncUserDetailsWithIdpBySub(String idpSub);
-
-	ApplicationUserDetails syncUserWithIdpByEmail(EmailAddress email);
+	ApplicationUserDetails syncUserDetailsWithIdpByUid(String uid);
 
 	ApplicationUserDetails getSystemUser();
 

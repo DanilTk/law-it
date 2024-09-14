@@ -4,7 +4,7 @@ databaseChangeLog:
       author: Dan Tkachenko
       changes:
         - createTable:
-            tableName: user_template
+            tableName: purchased_template
             columns:
               - column:
                   name: uuid
@@ -35,7 +35,7 @@ databaseChangeLog:
                   type: uuid
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_document_template_created_by_to_application_user_uuid
+                    foreignKeyName: fk_purchased_template_created_by_to_application_user_uuid
                     referencedColumnNames: uuid
                     referencedTableName: application_user
               - column:
@@ -43,26 +43,26 @@ databaseChangeLog:
                   type: uuid
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_document_template_updated_by_to_application_user_uuid
+                    foreignKeyName: fk_purchased_template_updated_by_to_application_user_uuid
                     referencedColumnNames: uuid
                     referencedTableName: application_user
               - column:
-                  name: company_uuid
+                  name: document_file_uuid
                   type: uuid
                   constraints:
                     nullable: true
-                    foreignKeyName: fk_user_template_company_uuid_to_company_uuid
+                    foreignKeyName: fk_purchased_template_document_file_uuid_to_registered_file_uuid
                     referencedColumnNames: uuid
-                    referencedTableName: company
+                    referencedTableName: registered_file
               - column:
                   name: template_uuid
                   type: uuid
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_user_template_template_uuid_to_document_template_uuid
+                    foreignKeyName: fk_purchased_template_template_uuid_to_document_template_uuid
                     referencedColumnNames: uuid
                     referencedTableName: document_template
         - addUniqueConstraint:
-            tableName: user_template
+            tableName: purchased_template
             columnNames: template_uuid, created_by
             constraintName: uq

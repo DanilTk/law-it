@@ -17,7 +17,7 @@ public record EmailAddress(
 	public static final int MAX_LENGTH = 255;
 
 	//Liberal regex checking if the format is: user@host.domain.
-	public static final String REGEX = "[^@\\s]+@[^@\\s.]+\\.[^@\\s]+";
+	private static final String REGEX = "[^@\\s]+@[^@\\s.]+\\.[^@\\s]+";
 
 	//Liberal regex checking if the format is: user@host.domain or USER@HOST.DOMAIN.
 	//public static final String REGEX = "/^[^\\s@]+@[^\\s@.]+\\.[^\\s@]+$/i";

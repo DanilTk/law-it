@@ -18,6 +18,7 @@ spring:
   cache:
     cache-names:
       - rate-limit-files-bucket-cache
+      - rate-limit-authorization-cache
     caffeine:
       spec: maximumSize=100000,expireAfterAccess=3600s
   docker:
@@ -43,7 +44,8 @@ spring:
       org:
         quartz:
           scheduler:
-            instanceName: portfolio-manager-scheduler
+            instanceId: AUTO
+            instanceName: application-scheduler
           jobStore:
             tablePrefix: quartz.qrtz_
             driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
@@ -73,7 +75,7 @@ logging:
 bucket4j:
   filters:
     - cache-name: rate-limit-files-bucket-cache
-      url: /files.*
+      url: /api-web/files.*
       strategy: first
       http-response-body: '{"statusCode": 429, "message": "Too many requests."}'
       rate-limits:
@@ -82,7 +84,18 @@ bucket4j:
             - capacity: 10
               time: 1
               unit: minutes
-
+    - cache-name: rate-limit-authorization-cache
+      url: /api-web/.*
+      filter-order: -200
+      strategy: first
+      http-response-body: '{"statusCode": 429, "message": "Too many requests."}'
+      http-status-code: TOO_MANY_REQUESTS
+      rate-limits:
+        - execute-condition: "T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication() == null || !T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().isAuthenticated()"
+          bandwidths:
+            - capacity: 3
+              time: 1
+              unit: minutes
 management:
   metrics:
     distribution:
@@ -135,17 +148,21 @@ application:
       - /public/**
   api-groups:
     cases-api-group:
-      - /cases/**
+      - /api-web/cases/**
     templates-api-group:
-      - /templates/**
+      - /api-web/templates/**
     meetings-api-group:
-      - /meetings/**
+      - /api-web/meetings/**
     accounts-api-group:
-      - /companies/**
-      - /lawyers/**
-      - /users/**
+      - /api-web/companies/**
+      - /api-web/lawyers/**
+      - /api-web/users/**
     files-api-group:
-      - /files/**
+      - /api-web/files/**
+  cron:
+    user-synchronzation: 0 0 * * * ?
+  web-mvc:
+    api-prefix: /api-web
 
 springdoc:
   api-docs:

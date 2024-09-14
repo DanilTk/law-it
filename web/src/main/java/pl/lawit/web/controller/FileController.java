@@ -28,7 +28,7 @@ import static pl.lawit.web.util.ApiVersioning.LI_WEB_API_JSON_V1;
 @RestController
 @RequestMapping(value = "/files", produces = LI_WEB_API_JSON_V1)
 @RequiredArgsConstructor
-public class FileController {
+public class FileController implements BaseController{
 
 	private final FileHandler handler;
 
@@ -37,13 +37,11 @@ public class FileController {
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "File uploaded successfully"),
 		@ApiResponse(responseCode = "400", description = "Invalid input"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "429", description = "Too Many Requests"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "429", description = "Too Many Requests")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
-	@PreAuthorize("hasAnyRole('ADMIN_USER', 'CLIENT_USER', 'LAWYER_USER', 'SUPPORT_USER')")
-	public FileResponseDto uploadFile(@RequestPart("file") MultipartFile file) {
+	@PreAuthorize("isAuthenticated()")
+	FileResponseDto uploadFile(@RequestPart("file") MultipartFile file) {
 		return handler.uploadFile(file);
 	}
 
@@ -51,13 +49,11 @@ public class FileController {
 	@GetMapping("/{fileId}")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "Successfully retrieved the file"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "404", description = "Object not found"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "404", description = "Object not found")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
-	public FileResponseDto getFileById(@PathVariable("fileId") UUID uuid) {
+	FileResponseDto getFileById(@PathVariable("fileId") UUID uuid) {
 		return handler.getFileByUuid(uuid);
 	}
 
@@ -65,15 +61,13 @@ public class FileController {
 	@DeleteMapping("/{fileId}")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "204", description = "File deleted successfully"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
 		@ApiResponse(responseCode = "404", description = "Object not found"),
-		@ApiResponse(responseCode = "409", description = "Conflict: Object is in use"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "409", description = "Conflict: Object is in use")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
 	@ResponseStatus(NO_CONTENT)
-	public void deleteFile(@PathVariable("fileId") UUID uuid) {
+	void deleteFile(@PathVariable("fileId") UUID uuid) {
 		handler.deleteFile(uuid);
 	}
 

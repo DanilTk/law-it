@@ -11,7 +11,7 @@ import static pl.lawit.kernel.model.ApplicationUserRole.ADMIN_USER;
 public record AuthenticatedUser(
 
 	@NonNull
-	String idpSub,
+	String idpUid,
 
 	@NonNull
 	UUID userUuid,
@@ -25,4 +25,10 @@ public record AuthenticatedUser(
 		return userRoles.contains(ADMIN_USER);
 	}
 
+	@Override
+	public String toString() {
+		return "AuthenticatedUser{" +
+			"uuid=" + userUuid +
+			'}';
+	}
 }

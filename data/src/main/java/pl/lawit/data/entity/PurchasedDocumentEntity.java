@@ -10,7 +10,6 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import org.springframework.lang.Nullable;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
@@ -21,13 +20,13 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED, force = true)
 @SuperBuilder
 @Entity
-@Table(name = "user_template")
-public class UserTemplateEntity extends BaseEntity {
+@Table(name = "purchased_template")
+public class PurchasedDocumentEntity extends BaseEntity {
 
-	@Nullable
-	@ManyToOne(fetch = LAZY)
-	@JoinColumn(name = "company_uuid")
-	private CompanyEntity company;
+	@NonNull
+	@ManyToOne(fetch = LAZY, optional = false)
+	@JoinColumn(name = "document_file_uuid")
+	private RegisteredFileEntity purchasedFile;
 
 	@NonNull
 	@ManyToOne(fetch = LAZY, optional = false)

@@ -1,13 +1,12 @@
 package pl.lawit.web.mapper;
 
+import lombok.experimental.UtilityClass;
 import pl.lawit.domain.model.RegisteredFile;
 
 import static pl.lawit.web.dto.FileDto.FileResponseDto;
 
-public class FileDtoMapper {
-
-	private FileDtoMapper() {
-	}
+@UtilityClass
+public final class FileDtoMapper {
 
 	public static FileResponseDto map(RegisteredFile registeredFile) {
 		return FileResponseDto.builder()

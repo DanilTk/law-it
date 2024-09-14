@@ -2,34 +2,268 @@
 <configuration>
 	<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 	<include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+	<property name="ENCODER_CLASS" value="ch.qos.logback.classic.encoder.PatternLayoutEncoder"/>
+	<property name="ENCODER_PATTERN"
+			  value="%d{yyyy-MM-dd} %-12d{HH:mm:ss.SSS} %highlight(%-5p) [%15.15thread] --- %cyan(%logger{25}) - %yellow(%class.%method) : %msg%ex{full}%n"/>
+
+	<appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="${ENCODER_CLASS}">
+			<pattern>${ENCODER_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="ERROR_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/error.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>logs/error-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+			<maxFileSize>10MB</maxFileSize>
+		</rollingPolicy>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<encoder class="${ENCODER_CLASS}">
+			<pattern>${ENCODER_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="LAWIT_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/lawit.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>logs/lawit-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+			<maxFileSize>10MB</maxFileSize>
+		</rollingPolicy>
+		<encoder class="${ENCODER_CLASS}">
+			<pattern>${ENCODER_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="CASE_LOGGER" level="INFO">
+		<appender-ref ref="CASE_FILE_APPENDER"/>
+	</logger>
+
+	<logger name="TEMPLATE_LOGGER" level="INFO">
+		<appender-ref ref="TEMPLATE_FILE_APPENDER"/>
+	</logger>
+
+	<logger name="USER_LOGGER" level="INFO">
+		<appender-ref ref="USER_FILE_APPENDER"/>
+	</logger>
+
+	<logger name="FILE_LOGGER" level="INFO">
+		<appender-ref ref="FILE_FILE_APPENDER"/>
+	</logger>
+
+	<logger name="CRON_LOGGER" level="INFO">
+		<appender-ref ref="CRON_FILE_APPENDER"/>
+	</logger>
+
+	<logger name="EMAIL_LOGGER" level="INFO">
+		<appender-ref ref="EMAIL_FILE_APPENDER"/>
+	</logger>
+
+	<logger name="COMPANY_LOGGER" level="INFO">
+		<appender-ref ref="COMPANY_FILE_APPENDER"/>
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="CONSOLE_APPENDER"/>
+		<appender-ref ref="LAWIT_FILE_APPENDER"/>
+		<appender-ref ref="ERROR_FILE_APPENDER"/>
+	</root>
 
 	<springProfile name="default, local">
-		<appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
-			<encoder>
-				<pattern>%d{yyyy-MM-dd} %-12d{HH:mm:ss.SSS} %highlight(%-5p) [%15.15thread] --- %cyan(%logger{25}) - %yellow(%class.%method) : %msg%ex{full}%n</pattern>
+		<appender name="CASE_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/case.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/case-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}">
+				<pattern>${ENCODER_PATTERN}</pattern>
 			</encoder>
 		</appender>
 
-		<logger name="ApplicationLogger" level="INFO" additivity="false">
-			<appender-ref ref="CONSOLE_APPENDER"/>
-		</logger>
+		<appender name="TEMPLATE_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/template.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/template-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}">
+				<pattern>${ENCODER_PATTERN}</pattern>
+			</encoder>
+		</appender>
 
-		<root level="INFO">
-			<appender-ref ref="CONSOLE_APPENDER"/>
-		</root>
+		<appender name="USER_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/user.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/user-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}">
+				<pattern>${ENCODER_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="FILE_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/file.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/file-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}">
+				<pattern>${ENCODER_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="CRON_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/cron.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/cron-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}">
+				<pattern>${ENCODER_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="EMAIL_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/email.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/email-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}">
+				<pattern>${ENCODER_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="COMPANY_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/company.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/company-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}">
+				<pattern>${ENCODER_PATTERN}</pattern>
+			</encoder>
+		</appender>
 	</springProfile>
 
 	<springProfile name="dev, uat, prod">
-		<appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
-			<encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+		<property name="ENCODER_CLASS" value="net.logstash.logback.encoder.LogstashEncoder"/>
+		<property name="ENCODER_PATTERN" value=""/>
+
+		<appender name="CASE_FILE_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+			<appender-ref ref="CASE_FILE_SYNC_APPENDER"/>
+			<queueSize>5000</queueSize>
+			<discardingThreshold>0</discardingThreshold>
+			<neverBlock>true</neverBlock>
 		</appender>
 
-		<logger name="ApplicationLogger" level="INFO" additivity="false">
-			<appender-ref ref="CONSOLE_APPENDER"/>
-		</logger>
+		<appender name="CASE_FILE_SYNC_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/case.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/case-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}"/>
+		</appender>
 
-		<root level="INFO">
-			<appender-ref ref="CONSOLE_APPENDER"/>
-		</root>
+		<appender name="TEMPLATE_FILE_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+			<appender-ref ref="TEMPLATE_FILE_SYNC_APPENDER"/>
+			<queueSize>5000</queueSize>
+			<discardingThreshold>0</discardingThreshold>
+			<neverBlock>true</neverBlock>
+		</appender>
+
+		<appender name="TEMPLATE_FILE_SYNC_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/template.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/template-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}"/>
+		</appender>
+
+		<appender name="USER_FILE_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+			<appender-ref ref="USER_FILE_SYNC_APPENDER"/>
+			<queueSize>5000</queueSize>
+			<discardingThreshold>0</discardingThreshold>
+			<neverBlock>true</neverBlock>
+		</appender>
+
+		<appender name="USER_FILE_SYNC_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/user.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/user-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}"/>
+		</appender>
+
+		<appender name="FILE_FILE_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+			<appender-ref ref="FILE_FILE_SYNC_APPENDER"/>
+			<queueSize>5000</queueSize>
+			<discardingThreshold>0</discardingThreshold>
+			<neverBlock>true</neverBlock>
+		</appender>
+
+		<appender name="FILE_FILE_SYNC_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/file.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/file-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}"/>
+		</appender>
+
+		<appender name="CRON_FILE_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+			<appender-ref ref="CRON_FILE_SYNC_APPENDER"/>
+			<queueSize>5000</queueSize>
+			<discardingThreshold>0</discardingThreshold>
+			<neverBlock>true</neverBlock>
+		</appender>
+
+		<appender name="CRON_FILE_SYNC_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/cron.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/cron-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}"/>
+		</appender>
+
+		<appender name="EMAIL_FILE_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+			<appender-ref ref="EMAIL_FILE_SYNC_APPENDER"/>
+			<queueSize>5000</queueSize>
+			<discardingThreshold>0</discardingThreshold>
+			<neverBlock>true</neverBlock>
+		</appender>
+
+		<appender name="COMPANY_FILE_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+			<appender-ref ref="COMPANY_FILE_SYNC_APPENDER"/>
+			<queueSize>5000</queueSize>
+			<discardingThreshold>0</discardingThreshold>
+			<neverBlock>true</neverBlock>
+		</appender>
+
+		<appender name="EMAIL_FILE_SYNC_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/email.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/email-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}"/>
+		</appender>
+
+		<appender name="COMPANY_FILE_SYNC_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/company.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/company-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}"/>
+		</appender>
 	</springProfile>
 </configuration>

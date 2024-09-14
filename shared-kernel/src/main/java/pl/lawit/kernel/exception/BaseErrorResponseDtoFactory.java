@@ -32,10 +32,11 @@ public class BaseErrorResponseDtoFactory {
 			.build();
 	}
 
-	BaseErrorResponseDto createRateLimitError() {
+	BaseErrorResponseDto createRateLimitError(UUID uuid) {
 		return BaseErrorResponseDto.builder()
 			.message("Too many requests, please try again later.")
 			.statusCode(TOO_MANY_REQUESTS.value())
+			.errorId(uuid)
 			.build();
 	}
 

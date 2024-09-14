@@ -16,7 +16,8 @@ import java.util.Properties;
 public class SchedulerConfig {
 
 	@Bean
-	public SchedulerFactoryBean schedulerFactoryBean(QuartzProperties quartzProperties, DataSource dataSource,
+	public SchedulerFactoryBean schedulerFactoryBean(QuartzProperties quartzProperties,
+													 DataSource dataSource,
 													 ApplicationContext applicationContext) {
 
 		SchedulerJobFactory schedulerJobFactory = new SchedulerJobFactory();

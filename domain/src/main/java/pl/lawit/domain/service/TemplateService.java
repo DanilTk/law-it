@@ -53,9 +53,11 @@ public class TemplateService {
 			.filePath(registeredFile.filePath())
 			.build();
 
-		//add record to db that user generated template and set time frames
-
 		FileDetail templatedDocument = templateProcessor.generateDocument(processorCommand);
+
+		//store generated file using file service
+		//add record to db that user generated template
+		//add methods to template repository to find
 
 		return templatedDocument;
 	}

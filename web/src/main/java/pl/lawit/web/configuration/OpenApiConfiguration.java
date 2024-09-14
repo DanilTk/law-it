@@ -14,6 +14,8 @@ import static io.swagger.v3.oas.models.security.SecurityScheme.Type.HTTP;
 @RequiredArgsConstructor
 public class OpenApiConfiguration {
 
+	public static final String SECURITY_SCHEME_NAME = "Bearer Authentication";
+
 	@Bean
 	public OpenAPI openApi() {
 		SecurityScheme securityScheme = new SecurityScheme()
@@ -23,10 +25,9 @@ public class OpenApiConfiguration {
 			.description("Firebase JWT Token authentication");
 
 		return new OpenAPI()
+			.addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME_NAME))
 			.components(new Components()
-				.addSecuritySchemes("bearerAuth", securityScheme))
-			.addSecurityItem(new SecurityRequirement()
-				.addList("bearerAuth"));
+				.addSecuritySchemes(SECURITY_SCHEME_NAME, securityScheme));
 	}
 
 }

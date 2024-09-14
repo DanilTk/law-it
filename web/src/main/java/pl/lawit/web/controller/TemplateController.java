@@ -64,8 +64,8 @@ public class TemplateController {
 		@ApiResponse(responseCode = "401", description = "Unauthorized"),
 		@ApiResponse(responseCode = "500", description = "Internal Server Error")
 	})
-		@SecurityRequirement(name = SECURITY_SCHEME_NAME)
-		@PreAuthorize("hasRole('CLIENT_USER')")
+	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
+	@PreAuthorize("hasAnyRole('ADMIN_USER','CLIENT_USER')")
 	public ResponseEntity<ByteArrayResource> generateDocument(@PathVariable("templateId") UUID uuid,
 															  @Valid @RequestBody GenerateTemplatedDocumentRequestDto dto) {
 		FileDetail fileContent = handler.generateDocument(uuid, dto);
@@ -87,8 +87,8 @@ public class TemplateController {
 		@ApiResponse(responseCode = "401", description = "Unauthorized"),
 		@ApiResponse(responseCode = "500", description = "Internal Server Error")
 	})
-		@SecurityRequirement(name = SECURITY_SCHEME_NAME)
-		@PreAuthorize("hasAnyRole('CLIENT_USER', 'ADMIN_USER')")
+	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
+	@PreAuthorize("hasAnyRole('CLIENT_USER', 'ADMIN_USER')")
 	public ListResponseDto<TemplateResponseDto> findTemplates(@Valid @ParameterObject FindTemplatesRequestDto dto) {
 		return handler.findTemplates(dto);
 	}
@@ -99,8 +99,8 @@ public class TemplateController {
 		@ApiResponse(responseCode = "200", description = "Successfully retrieved template categories"),
 		@ApiResponse(responseCode = "401", description = "Unauthorized")
 	})
-		@SecurityRequirement(name = SECURITY_SCHEME_NAME)
-		@PreAuthorize("hasAnyRole('CLIENT_USER', 'ADMIN_USER')")
+	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
+	@PreAuthorize("isAuthenticated()")
 	public ListResponseDto<TemplateCategory> findTemplateCategories() {
 		return handler.findAllCategories();
 	}

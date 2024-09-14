@@ -80,7 +80,7 @@ public class CompanyController {
 		@ApiResponse(responseCode = "500", description = "Internal Server Error")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
-	@PreAuthorize("hasAnyRole('ADMIN_USER', 'BASIC_USER')")
+	@PreAuthorize("hasAnyRole('ADMIN_USER', 'SUPPORT_USER', 'BASIC_USER')")
 	public ListResponseDto<LawyerResponseDto> getCompanyLawyers(@PathVariable("companyId") UUID uuid) {
 		return handler.getCompanyLawyers(uuid);
 	}

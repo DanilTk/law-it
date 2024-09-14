@@ -42,7 +42,7 @@ public class FileController {
 		@ApiResponse(responseCode = "500", description = "Internal Server Error")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
-	@PreAuthorize("hasAnyRole('CLIENT_USER', 'LAWYER_USER', 'SUPPORT_USER')")
+	@PreAuthorize("hasAnyRole('ADMIN_USER', 'CLIENT_USER', 'LAWYER_USER', 'SUPPORT_USER')")
 	public FileResponseDto uploadFile(@RequestPart("file") MultipartFile file) {
 		return handler.uploadFile(file);
 	}

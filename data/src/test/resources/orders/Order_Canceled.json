@@ -1,0 +1,27 @@
+{
+  "order": {
+    "orderId": "JZNX2D7MRH240917GUEST000P01",
+    "extOrderId": "2uikc6gjd99b4lxc75ip4i",
+    "orderCreateDate": "2024-09-17T23:56:06.044+02:00",
+    "notifyUrl": "https://webhook.site/e68c9cba-a431-418f-a85b-37d0cd0bd45a",
+    "customerIp": "127.0.0.1",
+    "merchantPosId": "485019",
+    "description": "RTV market",
+    "currencyCode": "PLN",
+    "totalAmount": "21000",
+    "status": "CANCELED",
+    "products": [
+      {
+        "name": "Wireless Mouse for Laptop",
+        "unitPrice": "15000",
+        "quantity": "1"
+      },
+      {
+        "name": "HDMI cable",
+        "unitPrice": "6000",
+        "quantity": "1"
+      }
+    ]
+  },
+  "properties": []
+}

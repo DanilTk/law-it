@@ -11,12 +11,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.lawit.domain.model.TemplateCategory;
 import pl.lawit.kernel.model.FileDetail;
 import pl.lawit.web.dto.ListResponseDto;
@@ -38,17 +33,14 @@ import static pl.lawit.web.util.ApiVersioning.LI_WEB_API_JSON_V1;
 @RestController
 @RequestMapping(value = "/templates", produces = LI_WEB_API_JSON_V1)
 @RequiredArgsConstructor
-public class TemplateController {
+public class TemplateController implements BaseController {
 
 	private final TemplateHandler handler;
 
 	@Operation(summary = "Create a template")
 	@PostMapping
 	@ApiResponses(value = {
-		@ApiResponse(responseCode = "200", description = "Template created successfully"),
-		@ApiResponse(responseCode = "400", description = "Invalid input"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "200", description = "Template created successfully")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
@@ -59,10 +51,7 @@ public class TemplateController {
 	@Operation(summary = "Generate templated document")
 	@PostMapping("/{templateId}")
 	@ApiResponses(value = {
-		@ApiResponse(responseCode = "200", description = "Document generated successfully"),
-		@ApiResponse(responseCode = "400", description = "Invalid input"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "200", description = "Document generated successfully")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasAnyRole('ADMIN_USER','CLIENT_USER')")
@@ -82,10 +71,7 @@ public class TemplateController {
 	@Operation(summary = "Find available templates")
 	@GetMapping
 	@ApiResponses(value = {
-		@ApiResponse(responseCode = "200", description = "Successfully retrieved templates"),
-		@ApiResponse(responseCode = "400", description = "Invalid input"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "200", description = "Successfully retrieved templates")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasAnyRole('CLIENT_USER', 'ADMIN_USER')")
@@ -96,8 +82,7 @@ public class TemplateController {
 	@Operation(summary = "Find template categories")
 	@GetMapping("/categories")
 	@ApiResponses(value = {
-		@ApiResponse(responseCode = "200", description = "Successfully retrieved template categories"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized")
+		@ApiResponse(responseCode = "200", description = "Successfully retrieved template categories")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("isAuthenticated()")

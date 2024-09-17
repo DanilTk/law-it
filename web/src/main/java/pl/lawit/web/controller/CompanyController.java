@@ -8,16 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.lawit.web.dto.CompanyDto.CompanyResponseDto;
 import pl.lawit.web.dto.CompanyDto.UpdateCompanyRequestDto;
 import pl.lawit.web.dto.ListResponseDto;
@@ -36,17 +27,14 @@ import static pl.lawit.web.util.ApiVersioning.LI_WEB_API_JSON_V1;
 @RestController
 @RequestMapping(value = "/companies", produces = LI_WEB_API_JSON_V1)
 @RequiredArgsConstructor
-public class CompanyController {
+public class CompanyController implements BaseController {
 
 	private final CompanyHandler handler;
 
 	@Operation(summary = "Create a new company profile")
 	@PostMapping
 	@ApiResponses(value = {
-		@ApiResponse(responseCode = "201", description = "Company profile created successfully"),
-		@ApiResponse(responseCode = "400", description = "Invalid input"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "201", description = "Company profile created successfully")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
@@ -57,11 +45,7 @@ public class CompanyController {
 	@Operation(summary = "Add a lawyer to a company")
 	@PutMapping("/{companyId}/lawyers/{lawyerId}")
 	@ApiResponses(value = {
-		@ApiResponse(responseCode = "200", description = "Lawyer assigned to company successfully"),
-		@ApiResponse(responseCode = "400", description = "Invalid input"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "404", description = "Object not found"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "200", description = "Lawyer assigned to company successfully")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
@@ -73,11 +57,7 @@ public class CompanyController {
 	@Operation(summary = "Get all lawyers belonging to a company")
 	@GetMapping("/{companyId}/lawyers")
 	@ApiResponses(value = {
-		@ApiResponse(responseCode = "200", description = "Successfully retrieved company lawyers"),
-		@ApiResponse(responseCode = "400", description = "Invalid input"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "404", description = "Object not found"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "200", description = "Successfully retrieved company lawyers")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasAnyRole('ADMIN_USER', 'SUPPORT_USER', 'BASIC_USER')")
@@ -88,9 +68,7 @@ public class CompanyController {
 	@Operation(summary = "Get page of company profiles")
 	@GetMapping
 	@ApiResponses(value = {
-		@ApiResponse(responseCode = "200", description = "Successfully retrieved companies"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "200", description = "Successfully retrieved companies")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
@@ -101,10 +79,7 @@ public class CompanyController {
 	@Operation(summary = "Get company profile")
 	@GetMapping("/{companyId}")
 	@ApiResponses(value = {
-		@ApiResponse(responseCode = "200", description = "Successfully retrieved the company"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "404", description = "Object not found"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "200", description = "Successfully retrieved the company")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
@@ -115,11 +90,7 @@ public class CompanyController {
 	@Operation(summary = "Update existing company profile")
 	@PatchMapping("/{companyId}")
 	@ApiResponses(value = {
-		@ApiResponse(responseCode = "200", description = "Company updated successfully"),
-		@ApiResponse(responseCode = "400", description = "Invalid input"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "404", description = "Object not found"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "200", description = "Company updated successfully")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
@@ -131,10 +102,7 @@ public class CompanyController {
 	@Operation(summary = "Delete a company profile")
 	@DeleteMapping("/{companyId}")
 	@ApiResponses(value = {
-		@ApiResponse(responseCode = "204", description = "Company deleted successfully"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "404", description = "Object not found"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "204", description = "Company deleted successfully")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
@@ -146,11 +114,7 @@ public class CompanyController {
 	@Operation(summary = "Remove member from a company")
 	@DeleteMapping("/{companyId}/lawyers/{lawyerId}")
 	@ApiResponses(value = {
-		@ApiResponse(responseCode = "204", description = "Lawyer removed from company successfully"),
-		@ApiResponse(responseCode = "400", description = "Invalid input"),
-		@ApiResponse(responseCode = "401", description = "Unauthorized"),
-		@ApiResponse(responseCode = "404", description = "Object not found"),
-		@ApiResponse(responseCode = "500", description = "Internal Server Error")
+		@ApiResponse(responseCode = "204", description = "Lawyer removed from company successfully")
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")

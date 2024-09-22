@@ -1,13 +1,12 @@
 package pl.lawit.web.mapper;
 
+import lombok.experimental.UtilityClass;
 import pl.lawit.domain.model.Lawyer;
 
 import static pl.lawit.web.dto.LawyerDto.LawyerResponseDto;
 
-public class LawyerDtoMapper {
-
-	private LawyerDtoMapper() {
-	}
+@UtilityClass
+public final class LawyerDtoMapper {
 
 	public static LawyerResponseDto map(Lawyer lawyer) {
 		return LawyerResponseDto.builder()

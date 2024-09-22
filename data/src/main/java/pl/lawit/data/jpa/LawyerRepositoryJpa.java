@@ -18,6 +18,10 @@ public interface LawyerRepositoryJpa extends JpaRepository<LawyerEntity, UUID>,
 
 	List<LawyerEntity> findAllByCompanyUuid(UUID uuid);
 
+	boolean existsByCompanyUuid(UUID uuid);
+
 	boolean existsByPesel(String pesel);
+
+	boolean existsByApplicationUserEmail(String email);
 
 }

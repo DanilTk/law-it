@@ -1,7 +1,6 @@
 package pl.lawit.kernel.exception;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +21,8 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static pl.lawit.kernel.logger.ApplicationLoggerFactory.rootLogger;
 
-@Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -62,6 +61,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return baseErrorResponseDtoFactory.createAccessDenied(uuid);
 	}
 
+	@ExceptionHandler(RateLimitExceededException.class)
+	public BaseErrorResponseDto handleException(RateLimitExceededException exception) {
+		UUID uuid = logException(exception);
+		return baseErrorResponseDtoFactory.createRateLimitError(uuid);
+	}
+
 	@ResponseStatus(NOT_FOUND)
 	@ExceptionHandler(ObjectNotFoundException.class)
 	public BaseErrorResponseDto handleException(ObjectNotFoundException exception) {
@@ -72,7 +77,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception exception, Object body, HttpHeaders headers,
 															 HttpStatusCode statusCode, WebRequest request) {
-		log.error("Caught Spring exception:", exception);
+		rootLogger().error("Caught Spring exception:", exception);
 		ResponseEntity<Object> defaultResponse = super.handleExceptionInternal(
 			exception,
 			body,
@@ -102,7 +107,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private UUID logException(Exception exception) {
 		UUID uuid = uuidProvider.getUuid();
-		log.error("{}{}]\n\t", CAUGHT_EXCEPTION, uuid, exception);
+		rootLogger().error("{}{}]\n\t", CAUGHT_EXCEPTION, uuid, exception);
 		return uuid;
 	}
 

@@ -1,10 +1,10 @@
 package pl.lawit.domain.command;
 
-import io.vavr.control.Option;
 import lombok.Builder;
 import lombok.NonNull;
 import pl.lawit.domain.model.Pesel;
 import pl.lawit.kernel.authentication.AuthenticatedUser;
+import pl.lawit.kernel.model.EmailAddress;
 import pl.lawit.kernel.model.MoneyAmount;
 
 import java.util.UUID;
@@ -15,10 +15,7 @@ public interface LawyerCommand {
 	record CreateLawyer(
 
 		@NonNull
-		UUID userUuid,
-
-		@NonNull
-		Option<UUID> companyUuid,
+		EmailAddress userEmail,
 
 		@NonNull
 		UUID fileUuid,
@@ -58,21 +55,6 @@ public interface LawyerCommand {
 
 		@NonNull
 		UUID fileUuid,
-
-		@NonNull
-		AuthenticatedUser authenticatedUser
-
-	) {
-	}
-
-	@Builder(toBuilder = true)
-	record AssignLawyerToCompany(
-
-		@NonNull
-		UUID uuid,
-
-		@NonNull
-		UUID companyUuid,
 
 		@NonNull
 		AuthenticatedUser authenticatedUser

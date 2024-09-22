@@ -50,7 +50,7 @@ public class ApplicationUserEntity {
 
 	@Column(name = "idp_sub", nullable = false, unique = true)
 	@NonNull
-	private String idpSub;
+	private String idpUid;
 
 	@Column(name = "email", unique = true)
 	@NonNull

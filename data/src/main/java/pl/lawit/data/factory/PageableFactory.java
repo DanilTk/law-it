@@ -1,19 +1,19 @@
 package pl.lawit.data.factory;
 
+import lombok.experimental.UtilityClass;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
 import pl.lawit.domain.command.PageCommandQuery;
 
-@Component
-public class PageableFactory {
+@UtilityClass
+public final class PageableFactory {
 
-	public Pageable create(PageCommandQuery query, Sort sort) {
-		return PageRequest.of(query.pageIndex(), query.pageSize(), sort);
+	public static Pageable create(PageCommandQuery commandQuery, Sort sort) {
+		return PageRequest.of(commandQuery.pageIndex(), commandQuery.pageSize(), sort);
 	}
 
-	public Pageable create(PageCommandQuery pageQuery) {
-		return PageRequest.of(pageQuery.pageIndex(), pageQuery.pageSize());
+	public static Pageable create(PageCommandQuery commandQuery) {
+		return PageRequest.of(commandQuery.pageIndex(), commandQuery.pageSize());
 	}
 }

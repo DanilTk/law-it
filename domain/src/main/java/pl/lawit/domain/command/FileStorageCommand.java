@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.NonNull;
 import pl.lawit.kernel.authentication.AuthenticatedUser;
 import pl.lawit.kernel.model.FileContent;
+import pl.lawit.kernel.model.FileDetail;
 import pl.lawit.kernel.model.FileName;
 import pl.lawit.kernel.model.FilePath;
 import pl.lawit.kernel.model.FileSize;
@@ -31,6 +32,19 @@ public interface FileStorageCommand {
 
 		@NonNull
 		Md5Checksum md5Checksum,
+
+		@NonNull
+		AuthenticatedUser authenticatedUser
+
+	) {
+
+	}
+
+	@Builder(toBuilder = true)
+	record UploadStreamCommand(
+
+		@NonNull
+		FileDetail fileDetail,
 
 		@NonNull
 		AuthenticatedUser authenticatedUser

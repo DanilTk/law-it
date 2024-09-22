@@ -6,7 +6,6 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,7 +16,8 @@ import pl.lawit.kernel.model.Attachment;
 import pl.lawit.kernel.model.EmailAddress;
 import pl.lawit.kernel.model.EmailDetail;
 
-@Slf4j
+import static pl.lawit.kernel.logger.ApplicationLoggerFactory.emailLogger;
+
 @Component
 @RequiredArgsConstructor
 public class EmailClient {
@@ -46,8 +46,8 @@ public class EmailClient {
 
 					sender.send(message);
 				})
-				.onFailure($ -> log.error("Failed to send an email.", $))
-				.onSuccess($ -> log.info("Email with subject: {} sent from: {} to: {}",
+				.onFailure($ -> emailLogger().error("Failed to send an email.", $))
+				.onSuccess($ -> emailLogger().info("Email with subject: {} sent from: {} to: {}",
 					emailDetail.subject(), outboundEmail,
 					emailDetail.recipients().map(EmailAddress::value).toJavaArray()));
 		}

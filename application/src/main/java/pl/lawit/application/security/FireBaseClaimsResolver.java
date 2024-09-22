@@ -42,7 +42,7 @@ public class FireBaseClaimsResolver implements JwtClaimResolver {
 	}
 
 	@Override
-	public String getUserIdpSub(Jwt jwt) {
+	public String getUserIdpUid(Jwt jwt) {
 		return jwt.getSubject();
 	}
 

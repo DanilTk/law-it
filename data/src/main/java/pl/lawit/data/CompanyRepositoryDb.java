@@ -39,8 +39,6 @@ public class CompanyRepositoryDb implements CompanyRepository {
 
 	private final CompanyMapper companyMapper;
 
-	private final PageableFactory pageableFactory;
-
 	private final PageResultFactory pageResultFactory;
 
 	@Override
@@ -125,9 +123,9 @@ public class CompanyRepositoryDb implements CompanyRepository {
 		companyRepositoryJpa.deleteById(uuid);
 	}
 
-	private Pageable getPageable(PageCommandQuery pageQuery) {
+	private Pageable getPageable(PageCommandQuery commandQuery) {
 		Sort sort = Sort.by(Sort.Direction.DESC, CompanyEntity_.COMPANY_NAME);
 
-		return pageableFactory.create(pageQuery, sort);
+		return PageableFactory.create(commandQuery, sort);
 	}
 }

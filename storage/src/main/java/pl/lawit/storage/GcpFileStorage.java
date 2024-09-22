@@ -6,7 +6,6 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -30,8 +29,8 @@ import static com.google.cloud.storage.Storage.SignUrlOption.withV4Signature;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.springframework.transaction.event.TransactionPhase.AFTER_COMPLETION;
 import static pl.lawit.domain.command.FileStorageCommand.UploadFileCommand;
+import static pl.lawit.kernel.logger.ApplicationLoggerFactory.fileLogger;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class GcpFileStorage implements EventDrivenFileStorage {
@@ -58,7 +57,7 @@ public class GcpFileStorage implements EventDrivenFileStorage {
 			byte[] content = readBytes(inputStream);
 			storage.create(blobInfo, content);
 			URL fileUrl = getFileUrl(filePath);
-			log.info("Uploaded blob: {}", filePath.value());
+			fileLogger().info("Uploaded blob: {}", filePath.value());
 			return new StoredFile(filePath, fileUrl);
 		} catch (IOException e) {
 			throw new FileUploadException();
@@ -96,7 +95,7 @@ public class GcpFileStorage implements EventDrivenFileStorage {
 	public void deleteFile(DeleteFileEvent event) {
 		boolean isDeleted = storage.delete(bucketName, event.filePath().value());
 		if (isDeleted) {
-			log.info("Deleted blob: {}", event.filePath().value());
+			fileLogger().info("Deleted blob: {}", event.filePath().value());
 		}
 	}
 

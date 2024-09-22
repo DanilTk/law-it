@@ -20,7 +20,7 @@ import pl.lawit.data.jpa.CompanyRepositoryJpa;
 import pl.lawit.data.jpa.LawyerRepositoryJpa;
 import pl.lawit.data.jpa.RegisteredFileRepositoryJpa;
 import pl.lawit.data.mapper.LawyerMapper;
-import pl.lawit.domain.command.LawyerCommand.AssignLawyerToCompany;
+import pl.lawit.domain.command.CompanyCommand.AddLawyerToCompany;
 import pl.lawit.domain.command.LawyerCommand.CreateLawyer;
 import pl.lawit.domain.command.LawyerCommand.UpdateLawyerCertificate;
 import pl.lawit.domain.command.LawyerCommand.UpdateLawyerRate;
@@ -29,6 +29,8 @@ import pl.lawit.domain.model.Lawyer;
 import pl.lawit.domain.model.Pesel;
 import pl.lawit.domain.repository.LawyerRepository;
 import pl.lawit.kernel.authentication.AuthenticatedUser;
+import pl.lawit.kernel.exception.ObjectNotFoundException;
+import pl.lawit.kernel.model.EmailAddress;
 import pl.lawit.kernel.model.PageResult;
 
 import java.util.UUID;
@@ -49,15 +51,15 @@ public class LawyerRepositoryDb implements LawyerRepository {
 
 	private final LawyerMapper lawyerMapper;
 
-	private final PageableFactory pageableFactory;
-
 	private final PageResultFactory pageResultFactory;
 
 	@Override
 	@Transactional(propagation = MANDATORY)
 	public Lawyer create(CreateLawyer command) {
-		ApplicationUserEntity applicationUserEntity =
-			applicationUserRepositoryJpa.getReferenceByUuid(command.userUuid());
+		ApplicationUserEntity applicationUserEntity = applicationUserRepositoryJpa
+			.findByEmail(command.userEmail().value())
+			.getOrElseThrow(() -> ObjectNotFoundException.byEmail(command.userEmail().value(),
+				AuthenticatedUser.class));
 
 		ApplicationUserEntity authenticatedUser =
 			applicationUserRepositoryJpa.getReferenceByUuid(command.authenticatedUser().userUuid());
@@ -105,8 +107,20 @@ public class LawyerRepositoryDb implements LawyerRepository {
 
 	@Override
 	@Transactional(readOnly = true, propagation = MANDATORY)
+	public boolean existsByCompanyUuid(UUID uuid) {
+		return lawyerRepositoryJpa.existsByCompanyUuid(uuid);
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = MANDATORY)
 	public boolean existsByPesel(Pesel pesel) {
 		return lawyerRepositoryJpa.existsByPesel(pesel.value());
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = MANDATORY)
+	public boolean existsByEmail(EmailAddress emailAddress) {
+		return lawyerRepositoryJpa.existsByApplicationUserEmail(emailAddress.value());
 	}
 
 	@Override
@@ -148,11 +162,11 @@ public class LawyerRepositoryDb implements LawyerRepository {
 
 	@Override
 	@Transactional(propagation = MANDATORY)
-	public Lawyer assignToCompany(AssignLawyerToCompany command) {
+	public Lawyer assignToCompany(AddLawyerToCompany command) {
 		ApplicationUserEntity userEntity = applicationUserRepositoryJpa
 			.getReferenceByUuid(command.authenticatedUser().userUuid());
 
-		LawyerEntity entity = lawyerRepositoryJpa.getReferenceByUuid(command.uuid());
+		LawyerEntity entity = lawyerRepositoryJpa.getReferenceByUuid(command.lawyerUuid());
 
 		CompanyEntity companyEntity = companyRepositoryJpa.getReferenceByUuid(command.companyUuid());
 
@@ -176,9 +190,9 @@ public class LawyerRepositoryDb implements LawyerRepository {
 		return lawyerMapper.mapToDomain(entity);
 	}
 
-	private Pageable getPageable(PageCommandQuery pageQuery) {
+	private Pageable getPageable(PageCommandQuery commandQuery) {
 		Sort sort = Sort.by(Sort.Direction.DESC, BaseEntity_.CREATED_AT);
 
-		return pageableFactory.create(pageQuery, sort);
+		return PageableFactory.create(commandQuery, sort);
 	}
 }

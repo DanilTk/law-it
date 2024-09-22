@@ -12,6 +12,6 @@ public interface JwtClaimResolver {
 
 	Set<ApplicationUserRole> getUserRoles(Jwt jwt);
 
-	String getUserIdpSub(Jwt jwt);
+	String getUserIdpUid(Jwt jwt);
 
 }

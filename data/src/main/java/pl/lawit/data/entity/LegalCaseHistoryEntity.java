@@ -6,7 +6,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -15,9 +14,8 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.springframework.lang.Nullable;
 import pl.lawit.domain.model.CaseStatus;
-import pl.lawit.domain.model.CaseType;
 
-import java.util.UUID;
+import java.time.Instant;
 
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
@@ -29,22 +27,13 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED, force = true)
 @SuperBuilder
 @Entity
-@Table(name = "\"case\"")
-public class CaseEntity extends BaseEntity {
-
-	@Size(max = 100)
-	@NonNull
-	@Column(name = "case_title", nullable = false, length = 100)
-	private String title;
+@Table(name = "legal_case_history")
+public class LegalCaseHistoryEntity extends BaseEntity {
 
 	@NonNull
-	@Column(name = "description_uuid", nullable = false)
-	private UUID descriptionUuid;
-
-	@NonNull
-	@Enumerated(STRING)
-	@Column(name = "case_type", nullable = false)
-	private CaseType caseType;
+	@ManyToOne(fetch = LAZY, optional = false)
+	@JoinColumn(name = "case_uuid", nullable = false)
+	private LegalCaseEntity legalCase;
 
 	@NonNull
 	@Enumerated(STRING)
@@ -57,8 +46,11 @@ public class CaseEntity extends BaseEntity {
 	private LawyerEntity lawyer;
 
 	@Nullable
-	@ManyToOne(fetch = LAZY)
-	@JoinColumn(name = "company_uuid")
-	private CompanyEntity company;
+	@Column(name = "acceptance_deadline")
+	private Instant acceptanceDeadline;
+
+	@Nullable
+	@Column(name = "completion_deadline")
+	private Instant completionDeadline;
 
 }

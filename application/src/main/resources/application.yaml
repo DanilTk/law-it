@@ -146,6 +146,7 @@ application:
       - /management/**
       - /actuator/**
       - /public/**
+      - /api/payments/**
   api-groups:
     cases-api-group:
       - /api-web/cases/**
@@ -159,10 +160,19 @@ application:
       - /api-web/users/**
     files-api-group:
       - /api-web/files/**
+    payments-api-group:
+      - /api/payments/**
   cron:
     user-synchronzation: 0 0 * * * ?
   web-mvc:
-    api-prefix: /api-web
+    api-web-prefix: /api-web
+    api-prefix: /api
+  legal-case-state-duration:
+    acceptance-deadline-hours: 24
+    completion-deadline-hours: 72
+  legal-case-pricing:
+    basic-case-price: 100
+    advanced-case-price: 150
 
 springdoc:
   api-docs:

@@ -22,6 +22,8 @@ public interface LawyerRepository extends BaseRepository<Lawyer> {
 
 	PageResult<Lawyer> findPage(PageCommandQuery commandQuery);
 
+	Lawyer getByUserUuid(UUID uuid);
+
 	List<Lawyer> findLawyersByCompanyUuid(UUID uuid);
 
 	boolean existsByCompanyUuid(UUID uuid);
@@ -36,6 +38,6 @@ public interface LawyerRepository extends BaseRepository<Lawyer> {
 
 	Lawyer assignToCompany(AddLawyerToCompany command);
 
-	Lawyer unassignFromCompany(UUID uuid, AuthenticatedUser authenticatedUser);
+	void unassignFromCompany(UUID uuid, AuthenticatedUser authenticatedUser);
 
 }

@@ -53,7 +53,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_case_attachment_case_uuid_to_case_uuid
                     referencedColumnNames: uuid
-                    referencedTableName: case
+                    referencedTableName: legal_case
               - column:
                   name: file_uuid
                   type: uuid

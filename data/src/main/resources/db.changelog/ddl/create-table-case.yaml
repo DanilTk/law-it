@@ -4,7 +4,7 @@ databaseChangeLog:
       author: Dan Tkachenko
       changes:
         - createTable:
-            tableName: case
+            tableName: legal_case
             columns:
               - column:
                   name: uuid
@@ -52,6 +52,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: case_category
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
                   name: case_status
                   type: varchar(20)
                   constraints:
@@ -82,3 +87,13 @@ databaseChangeLog:
                     foreignKeyName: fk_case_company_uuid_to_company_uuid
                     referencedColumnNames: uuid
                     referencedTableName: company
+              - column:
+                  name: completion_deadline
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: true
+              - column:
+                  name: acceptance_deadline
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: true

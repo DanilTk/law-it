@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class BackendWebMvcProperties {
 
+	private String apiWebPrefix;
+
 	private String apiPrefix;
 
 }

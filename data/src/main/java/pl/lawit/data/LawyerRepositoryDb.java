@@ -100,6 +100,14 @@ public class LawyerRepositoryDb implements LawyerRepository {
 
 	@Override
 	@Transactional(readOnly = true, propagation = MANDATORY)
+	public Lawyer getByUserUuid(UUID uuid) {
+		return Option.of(lawyerRepositoryJpa.findByApplicationUserUuid(uuid))
+			.map(lawyerMapper::mapToDomain)
+			.getOrElseThrow(() -> ObjectNotFoundException.byUUID(uuid, Lawyer.class));
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = MANDATORY)
 	public List<Lawyer> findLawyersByCompanyUuid(UUID uuid) {
 		return lawyerRepositoryJpa.findAllByCompanyUuid(uuid)
 			.map(lawyerMapper::mapToDomain);
@@ -178,7 +186,7 @@ public class LawyerRepositoryDb implements LawyerRepository {
 
 	@Override
 	@Transactional(propagation = MANDATORY)
-	public Lawyer unassignFromCompany(UUID uuid, AuthenticatedUser authenticatedUser) {
+	public void unassignFromCompany(UUID uuid, AuthenticatedUser authenticatedUser) {
 		ApplicationUserEntity userEntity = applicationUserRepositoryJpa
 			.getReferenceByUuid(authenticatedUser.userUuid());
 
@@ -186,8 +194,6 @@ public class LawyerRepositoryDb implements LawyerRepository {
 
 		entity.setCompany(null);
 		entity.setUpdatedBy(userEntity);
-
-		return lawyerMapper.mapToDomain(entity);
 	}
 
 	private Pageable getPageable(PageCommandQuery commandQuery) {

@@ -4,7 +4,7 @@ databaseChangeLog:
   - include:
       file: db.changelog/ddl/create-table-application-user.yaml
   - include:
-      file: db.changelog/ddl/create-table-registered_file.yaml
+      file: db.changelog/ddl/create-table-registered-file.yaml
   - include:
       file: db.changelog/ddl/create-table-company.yaml
   - include:
@@ -21,4 +21,8 @@ databaseChangeLog:
       file: db.changelog/ddl/create-table-user-template.yaml
   - include:
       file: db.changelog/ddl/insert-data-application-user.yaml
+  - include:
+      file: db.changelog/ddl/create-table-case-history.yaml
+  - include:
+      file: db.changelog/ddl/create-table-payment.yaml
 

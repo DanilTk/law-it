@@ -12,10 +12,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
+import pl.lawit.email.event.EmailDetailEvent;
 import pl.lawit.kernel.model.Attachment;
 import pl.lawit.kernel.model.EmailAddress;
-import pl.lawit.kernel.model.EmailDetail;
 
+import static org.springframework.transaction.event.TransactionPhase.AFTER_COMMIT;
 import static pl.lawit.kernel.logger.ApplicationLoggerFactory.emailLogger;
 
 @Component
@@ -33,7 +35,8 @@ public class EmailClient {
 	private String outboundEmail;
 
 	@Async
-	public void sendEmail(EmailDetail emailDetail) {
+	@TransactionalEventListener(phase = AFTER_COMMIT)
+	public void sendEmail(EmailDetailEvent emailDetail) {
 		if (isEmailClientEnabled) {
 			Try.run(() -> {
 					MimeMessage message;
@@ -51,6 +54,8 @@ public class EmailClient {
 					emailDetail.subject(), outboundEmail,
 					emailDetail.recipients().map(EmailAddress::value).toJavaArray()));
 		}
+
+		emailLogger().info("Email skipped. Email client is disabled.");
 	}
 
 	@SneakyThrows

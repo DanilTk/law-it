@@ -5,9 +5,11 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.lawit.data.entity.ApplicationUserEntity;
+import pl.lawit.kernel.model.MoneyAmount;
 import pl.lawit.kernel.util.TimeProvider;
 import pl.lawit.kernel.util.UuidProvider;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
 import java.util.UUID;
@@ -30,8 +32,13 @@ public class BaseMapper {
 	}
 
 	@SneakyThrows
-	public static URL ofUrl(String url) {
-		return new URI(url).toURL();
+	public static URL ofUrl(String value) {
+		return new URI(value).toURL();
+	}
+
+	@SneakyThrows
+	public static MoneyAmount ofMoneyAmount(BigDecimal value) {
+		return MoneyAmount.of(value);
 	}
 
 }

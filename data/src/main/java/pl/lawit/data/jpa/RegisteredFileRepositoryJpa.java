@@ -1,5 +1,6 @@
 package pl.lawit.data.jpa;
 
+import io.vavr.collection.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import pl.lawit.data.entity.RegisteredFileEntity;
 import pl.lawit.domain.model.RegisteredFile;
@@ -12,5 +13,7 @@ public interface RegisteredFileRepositoryJpa extends JpaRepository<RegisteredFil
 	default RegisteredFileEntity getReferenceByUuid(UUID uuid) {
 		return findById(uuid).orElseThrow(() -> ObjectNotFoundException.byUUID(uuid, RegisteredFile.class));
 	}
+
+	Set<RegisteredFileEntity> findAllByUuidIn(Set<UUID> collection);
 
 }

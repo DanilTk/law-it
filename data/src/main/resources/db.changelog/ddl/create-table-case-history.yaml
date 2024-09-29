@@ -1,0 +1,79 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-case-history
+      author: Dan Tkachenko
+      changes:
+        - createTable:
+            tableName: legal_case_history
+            columns:
+              - column:
+                  name: uuid
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: version
+                  type: integer
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  defaultValueComputed: current_timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  defaultValueComputed: current_timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_case_created_by_to_application_user_uuid
+                    referencedColumnNames: uuid
+                    referencedTableName: application_user
+              - column:
+                  name: updated_by
+                  type: uuid
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_case_updated_by_to_application_user_uuid
+                    referencedColumnNames: uuid
+                    referencedTableName: application_user
+              - column:
+                  name: case_status
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: case_uuid
+                  type: uuid
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_legal_case_history_to_legal_case_uuid
+                    referencedColumnNames: uuid
+                    referencedTableName: legal_case
+              - column:
+                  name: lawyer_uuid
+                  type: uuid
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_case_history_lawyer_uuid_to_lawyer_uuid
+                    referencedColumnNames: uuid
+                    referencedTableName: lawyer
+              - column:
+                  name: completion_deadline
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: true
+              - column:
+                  name: acceptance_deadline
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: true

@@ -16,6 +16,8 @@ public interface LawyerRepositoryJpa extends JpaRepository<LawyerEntity, UUID>,
 		return findById(uuid).orElseThrow(() -> ObjectNotFoundException.byUUID(uuid, Lawyer.class));
 	}
 
+	LawyerEntity findByApplicationUserUuid(UUID uuid);
+
 	List<LawyerEntity> findAllByCompanyUuid(UUID uuid);
 
 	boolean existsByCompanyUuid(UUID uuid);

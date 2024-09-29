@@ -1,12 +1,14 @@
-package pl.lawit.kernel.model;
+package pl.lawit.email.event;
 
 import io.vavr.collection.Set;
 import io.vavr.control.Option;
 import lombok.Builder;
 import lombok.NonNull;
+import pl.lawit.kernel.model.Attachment;
+import pl.lawit.kernel.model.EmailAddress;
 
-@Builder
-public record EmailDetail(
+@Builder(toBuilder = true)
+public record EmailDetailEvent(
 
 	@NonNull
 	String subject,

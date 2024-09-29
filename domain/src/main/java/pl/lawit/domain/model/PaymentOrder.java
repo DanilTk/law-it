@@ -3,34 +3,39 @@ package pl.lawit.domain.model;
 import io.vavr.control.Option;
 import lombok.Builder;
 import lombok.NonNull;
+import pl.lawit.kernel.model.MoneyAmount;
 import pl.lawit.kernel.repository.BaseModel;
 
+import java.net.URL;
 import java.time.Instant;
 import java.util.UUID;
 
 @Builder(toBuilder = true)
-public record Case(
+public record PaymentOrder(
 
 	@NonNull
 	UUID uuid,
 
 	@NonNull
-	String title,
+	String orderId,
 
 	@NonNull
-	UUID descriptionUuid,
+	PaymentStatus paymentStatus,
 
 	@NonNull
-	Option<UUID> lawyerUuid,
+	MoneyAmount amount,
 
 	@NonNull
-	Option<UUID> companyUuid,
+	CurrencyCode currencyCode,
 
 	@NonNull
-	CaseType caseType,
+	PaymentType paymentType,
 
 	@NonNull
-	CaseStatus caseStatus,
+	URL paymentLink,
+
+	@NonNull
+	UUID legalCaseUuid,
 
 	@NonNull
 	Instant createdAt,

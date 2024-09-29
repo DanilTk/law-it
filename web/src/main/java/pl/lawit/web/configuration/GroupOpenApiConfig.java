@@ -29,14 +29,14 @@ public class GroupOpenApiConfig {
 			.build();
 	}
 
-	@Bean
-	public GroupedOpenApi conferencesGroupedOpenApi() {
-		return GroupedOpenApi.builder()
-			.group("3_meetings")
-			.displayName("meetings")
-			.pathsToMatch(apiGroupProperties.getMeetingsApiGroup().toArray(new String[0]))
-			.build();
-	}
+//	@Bean
+//	public GroupedOpenApi conferencesGroupedOpenApi() {
+//		return GroupedOpenApi.builder()
+//			.group("3_meetings")
+//			.displayName("meetings")
+//			.pathsToMatch(apiGroupProperties.getMeetingsApiGroup().toArray(new String[0]))
+//			.build();
+//	}
 
 	@Bean
 	public GroupedOpenApi accountGroupedOpenApi() {
@@ -53,6 +53,15 @@ public class GroupOpenApiConfig {
 			.group("5_files")
 			.displayName("files")
 			.pathsToMatch(apiGroupProperties.getFilesApiGroup().toArray(new String[0]))
+			.build();
+	}
+
+	@Bean
+	public GroupedOpenApi paymentGroupedOpenApi() {
+		return GroupedOpenApi.builder()
+			.group("6_payments")
+			.displayName("payments")
+			.pathsToMatch(apiGroupProperties.getPaymentsApiGroup().toArray(new String[0]))
 			.build();
 	}
 

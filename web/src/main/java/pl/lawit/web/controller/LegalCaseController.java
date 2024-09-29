@@ -15,26 +15,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.lawit.web.dto.CaseDto.CreateAdvancedCaseRequestDto;
-import pl.lawit.web.dto.CaseDto.LegalCaseDetailResponseDto;
-import pl.lawit.web.dto.CaseDto.LegalCaseResponseDto;
+import pl.lawit.web.dto.LegalCaseDto.CreateAdvancedCaseRequestDto;
+import pl.lawit.web.dto.LegalCaseDto.LegalCaseDetailResponseDto;
+import pl.lawit.web.dto.LegalCaseDto.LegalCaseResponseDto;
 import pl.lawit.web.dto.ListResponseDto;
 import pl.lawit.web.dto.PageResponseDto;
 import pl.lawit.web.dto.PageableRequestDto;
-import pl.lawit.web.handler.CaseHandler;
+import pl.lawit.web.handler.LegalCaseHandler;
 
 import java.util.UUID;
 
 import static pl.lawit.web.configuration.OpenApiConfiguration.SECURITY_SCHEME_NAME;
-import static pl.lawit.web.dto.CaseDto.CreateBasicCaseRequestDto;
+import static pl.lawit.web.dto.LegalCaseDto.CreateBasicCaseRequestDto;
 import static pl.lawit.web.util.ApiVersioning.LI_WEB_API_JSON_V1;
 
 @RestController
 @RequestMapping(value = "/cases", produces = LI_WEB_API_JSON_V1)
 @RequiredArgsConstructor
-public class CaseController implements BaseController {
+public class LegalCaseController implements BaseController {
 
-	private final CaseHandler handler;
+	private final LegalCaseHandler handler;
 
 	@Operation(summary = "Create basic legal case")
 	@PostMapping("/basic")

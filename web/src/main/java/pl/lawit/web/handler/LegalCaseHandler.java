@@ -10,8 +10,8 @@ import pl.lawit.domain.service.LegalCaseService;
 import pl.lawit.kernel.authentication.AuthenticatedUser;
 import pl.lawit.kernel.authentication.AuthenticatedUserResolver;
 import pl.lawit.kernel.model.PageResult;
-import pl.lawit.web.dto.CaseDto.CreateBasicCaseRequestDto;
-import pl.lawit.web.dto.CaseDto.LegalCaseDetailResponseDto;
+import pl.lawit.web.dto.LegalCaseDto.CreateBasicCaseRequestDto;
+import pl.lawit.web.dto.LegalCaseDto.LegalCaseDetailResponseDto;
 import pl.lawit.web.dto.ListResponseDto;
 import pl.lawit.web.dto.PageResponseDto;
 import pl.lawit.web.dto.PageableRequestDto;
@@ -24,12 +24,12 @@ import java.util.UUID;
 
 import static pl.lawit.domain.command.CaseCommand.CreateCase;
 import static pl.lawit.kernel.logger.ApplicationLoggerFactory.caseLogger;
-import static pl.lawit.web.dto.CaseDto.CreateAdvancedCaseRequestDto;
-import static pl.lawit.web.dto.CaseDto.LegalCaseResponseDto;
+import static pl.lawit.web.dto.LegalCaseDto.CreateAdvancedCaseRequestDto;
+import static pl.lawit.web.dto.LegalCaseDto.LegalCaseResponseDto;
 
 @Component
 @RequiredArgsConstructor
-public class CaseHandler {
+public class LegalCaseHandler {
 
 	private final AuthenticatedUserResolver authenticatedUserResolver;
 

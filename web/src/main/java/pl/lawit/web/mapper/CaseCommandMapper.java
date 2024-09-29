@@ -5,13 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.lawit.kernel.authentication.AuthenticatedUser;
 import pl.lawit.kernel.authentication.AuthenticatedUserResolver;
-import pl.lawit.web.dto.CaseDto.CreateAdvancedCaseRequestDto;
+import pl.lawit.web.dto.LegalCaseDto.CreateAdvancedCaseRequestDto;
 
 import static pl.lawit.domain.command.CaseCommand.CreateCase;
 import static pl.lawit.domain.model.CaseCategory.ADVANCED;
 import static pl.lawit.domain.model.CaseCategory.BASIC;
 import static pl.lawit.domain.model.CaseStatus.DRAFT;
-import static pl.lawit.web.dto.CaseDto.CreateBasicCaseRequestDto;
+import static pl.lawit.web.dto.LegalCaseDto.CreateBasicCaseRequestDto;
 
 @Component
 @RequiredArgsConstructor

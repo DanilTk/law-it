@@ -17,7 +17,7 @@ import java.util.UUID;
 
 import static pl.lawit.web.dto.PaymentOrderDto.PaymentOrderResponseDto;
 
-public interface CaseDto {
+public interface LegalCaseDto {
 
 	@Builder(toBuilder = true)
 	record LegalCaseResponseDto(

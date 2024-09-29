@@ -3,10 +3,10 @@ package pl.lawit.web.mapper;
 import lombok.experimental.UtilityClass;
 import pl.lawit.domain.model.LegalCase;
 import pl.lawit.domain.model.LegalCaseInfo;
-import pl.lawit.web.dto.CaseDto.LegalCaseDetailResponseDto;
+import pl.lawit.web.dto.LegalCaseDto.LegalCaseDetailResponseDto;
 import pl.lawit.web.dto.PaymentOrderDto;
 
-import static pl.lawit.web.dto.CaseDto.LegalCaseResponseDto;
+import static pl.lawit.web.dto.LegalCaseDto.LegalCaseResponseDto;
 
 @UtilityClass
 public final class CaseDtoMapper {

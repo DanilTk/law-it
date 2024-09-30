@@ -39,7 +39,7 @@ public class LegalCaseHandler {
 
 	private final PageResponseDtoFactory pageResponseDtoFactory;
 
-	public LegalCaseDetailResponseDto createBasicCase(CreateBasicCaseRequestDto dto) {
+	public LegalCaseDetailResponseDto createBasicCase(CreateBasicCaseRequestDto dto)  {
 		CreateCase command = commandMapper.mapToCreateCaseCommand(dto);
 
 		LegalCaseInfo info = legalCaseService.createLegalCase(command);
@@ -49,7 +49,7 @@ public class LegalCaseHandler {
 		return CaseDtoMapper.map(info);
 	}
 
-	public LegalCaseDetailResponseDto createAdvancedCase(CreateAdvancedCaseRequestDto dto) {
+	public LegalCaseDetailResponseDto createAdvancedCase(CreateAdvancedCaseRequestDto dto)  {
 		CreateCase command = commandMapper.mapToCreateCaseCommand(dto);
 
 		LegalCaseInfo info = legalCaseService.createLegalCase(command);

@@ -2,9 +2,8 @@ package pl.lawit.domain.service;
 
 import io.vavr.collection.HashSet;
 import io.vavr.collection.Set;
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
@@ -58,7 +57,7 @@ public class LegalCaseService {
 	private final LegalCaseRepository legalCaseRepository;
 
 	@Transactional
-	public LegalCaseInfo createLegalCase(CreateCase command) {
+	public LegalCaseInfo createLegalCase(CreateCase command)  {
 		LegalCase legalCase = legalCaseRepository.create(command);
 
 		if (!command.fileUuids().isEmpty()) {
@@ -72,7 +71,10 @@ public class LegalCaseService {
 
 		createCaseHistory(legalCase, command.authenticatedUser());
 
-		PaymentOrder paymentOrder = paymentOrderService.createOrder(legalCase, command.authenticatedUser());
+		PaymentOrder paymentOrder = paymentOrderService.createOrder(
+			legalCase,
+			command.authenticatedUser(),
+			command.ipAddress());
 
 		emailProcessor.sendEmail();
 
@@ -244,8 +246,7 @@ public class LegalCaseService {
 
 }
 
-@Getter
-@Setter
+@Data
 @Configuration
 @ConfigurationProperties("application.legal-case-state-duration")
 class LegalCaseDurationProperties {

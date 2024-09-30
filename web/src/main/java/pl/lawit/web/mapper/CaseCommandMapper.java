@@ -30,6 +30,7 @@ public class CaseCommandMapper {
 			.caseType(dto.caseType())
 			.fileUuids(HashSet.empty())
 			.authenticatedUser(authenticatedUser)
+			.ipAddress(dto.ipAddress())
 			.build();
 	}
 

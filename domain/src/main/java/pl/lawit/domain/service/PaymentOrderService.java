@@ -1,21 +1,23 @@
 package pl.lawit.domain.service;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.SneakyThrows;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.lawit.domain.model.CurrencyCode;
 import pl.lawit.domain.model.LegalCase;
 import pl.lawit.domain.model.PaymentOrder;
-import pl.lawit.domain.model.PaymentOrderDetail;
+import pl.lawit.domain.model.PaymentResponse;
 import pl.lawit.domain.processor.PaymentOrderProcessor;
 import pl.lawit.domain.repository.PaymentOrderRepository;
 import pl.lawit.kernel.authentication.AuthenticatedUser;
 import pl.lawit.kernel.model.MoneyAmount;
 
 import java.math.BigDecimal;
+import java.net.URL;
 import java.util.UUID;
 
 import static org.springframework.transaction.annotation.Propagation.MANDATORY;
@@ -39,9 +41,10 @@ public class PaymentOrderService {
 		return paymentOrderRepository.getByOrderId(orderId);
 	}
 
+	@SneakyThrows
 	@Transactional(propagation = MANDATORY)
-	public PaymentOrder createOrder(LegalCase legalCase, AuthenticatedUser authenticatedUser) {
-		PaymentOrderDetail orderDetail = paymentOrderProcessor.placePaymentOrder();
+	public PaymentOrder createOrder(LegalCase legalCase, AuthenticatedUser authenticatedUser, String ipAddress)  {
+		PaymentResponse orderDetail = paymentOrderProcessor.placePaymentOrder(legalCase, authenticatedUser, ipAddress);
 		MoneyAmount price = resolvePrice(legalCase);
 
 		CreatePaymentOrder command = CreatePaymentOrder.builder()
@@ -49,8 +52,8 @@ public class PaymentOrderService {
 			.paymentStatus(PENDING)
 			.paymentType(PURCHASE)
 			.orderId(orderDetail.orderId())
-			.paymentLink(orderDetail.paymentLink())
-			.currencyCode(orderDetail.currencyCode())
+			.paymentLink(new URL(orderDetail.redirectUri())) //todo: url must come from payment response
+			.currencyCode(CurrencyCode.PLN)
 			.purchasePrice(price)
 			.authenticatedUser(authenticatedUser)
 			.build();
@@ -72,8 +75,7 @@ public class PaymentOrderService {
 	}
 }
 
-@Getter
-@Setter
+@Data
 @Configuration
 @ConfigurationProperties("application.legal-case-pricing")
 class PaymentOrderPriceProperties {

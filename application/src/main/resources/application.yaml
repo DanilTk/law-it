@@ -181,3 +181,10 @@ springdoc:
     oauth2-redirect-url: ${application.server-url}/swagger-ui/oauth2-redirect.html
     persist-authorization: true
     operations-sorter: method
+
+payment-gateway:
+  payu:
+    authenticationUrl: https://secure.snd.payu.com/pl/standard/user/oauth/authorize
+    clientId: ${payuClientId}
+    clientSecret: ${payuClientSecret}
+    baseUrl: https://secure.snd.payu.com

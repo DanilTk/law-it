@@ -19,6 +19,7 @@ spring:
     cache-names:
       - rate-limit-files-bucket-cache
       - rate-limit-authorization-cache
+      - payment-gateway-token-cache
     caffeine:
       spec: maximumSize=100000,expireAfterAccess=3600s
   docker:

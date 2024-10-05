@@ -28,7 +28,7 @@ import static pl.lawit.kernel.logger.ApplicationLoggerFactory.paymentGatewayLogg
 @RequiredArgsConstructor
 public class PayUAuthorizationResolver {
 
-	private static final String TOKEN_CACHE_NAME = "payment-gateway-token";
+	private static final String TOKEN_CACHE_NAME = "payment-gateway-token-cache";
 
 	private static final String TOKEN_CACHE_KEY = "token";
 

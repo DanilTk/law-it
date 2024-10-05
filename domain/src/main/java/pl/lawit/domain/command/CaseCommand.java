@@ -36,10 +36,7 @@ public interface CaseCommand {
 		Set<UUID> fileUuids,
 
 		@NonNull
-		AuthenticatedUser authenticatedUser,
-
-		@NonNull
-		String ipAddress //todo: remove
+		AuthenticatedUser authenticatedUser
 
 	) {
 	}

@@ -4,7 +4,7 @@ import lombok.NonNull;
 
 import java.util.UUID;
 
-public record BuyerDto(
+public record BuyerRequestDto(
 
 	@NonNull
 	UUID userUuid

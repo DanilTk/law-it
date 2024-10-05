@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "application.web-mvc")
+@ConfigurationProperties("application.web-mvc")
 public class BackendWebMvcProperties {
 
 	private String apiWebPrefix;

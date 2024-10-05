@@ -57,7 +57,7 @@ public class LegalCaseService {
 	private final LegalCaseRepository legalCaseRepository;
 
 	@Transactional
-	public LegalCaseInfo createLegalCase(CreateCase command)  {
+	public LegalCaseInfo createLegalCase(CreateCase command) {
 		LegalCase legalCase = legalCaseRepository.create(command);
 
 		if (!command.fileUuids().isEmpty()) {
@@ -71,10 +71,7 @@ public class LegalCaseService {
 
 		createCaseHistory(legalCase, command.authenticatedUser());
 
-		PaymentOrder paymentOrder = paymentOrderService.createOrder(
-			legalCase,
-			command.authenticatedUser(),
-			command.ipAddress());
+		PaymentOrder paymentOrder = paymentOrderService.createOrder(legalCase, command.authenticatedUser());
 
 		emailProcessor.sendEmail();
 

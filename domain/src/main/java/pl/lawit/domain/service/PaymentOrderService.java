@@ -7,22 +7,23 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.lawit.domain.model.CurrencyCode;
+import pl.lawit.domain.command.PaymentOrderCommand.PlacePaymentOrder;
 import pl.lawit.domain.model.LegalCase;
 import pl.lawit.domain.model.PaymentOrder;
-import pl.lawit.domain.model.PaymentResponse;
+import pl.lawit.domain.model.PaymentResponseDto;
 import pl.lawit.domain.processor.PaymentOrderProcessor;
 import pl.lawit.domain.repository.PaymentOrderRepository;
 import pl.lawit.kernel.authentication.AuthenticatedUser;
 import pl.lawit.kernel.model.MoneyAmount;
 
 import java.math.BigDecimal;
-import java.net.URL;
+import java.net.URI;
 import java.util.UUID;
 
 import static org.springframework.transaction.annotation.Propagation.MANDATORY;
 import static pl.lawit.domain.command.PaymentOrderCommand.CreatePaymentOrder;
 import static pl.lawit.domain.model.CaseCategory.BASIC;
+import static pl.lawit.domain.model.CurrencyCode.PLN;
 import static pl.lawit.domain.model.PaymentStatus.PENDING;
 import static pl.lawit.domain.model.PaymentType.PURCHASE;
 
@@ -43,17 +44,25 @@ public class PaymentOrderService {
 
 	@SneakyThrows
 	@Transactional(propagation = MANDATORY)
-	public PaymentOrder createOrder(LegalCase legalCase, AuthenticatedUser authenticatedUser, String ipAddress)  {
-		PaymentResponse orderDetail = paymentOrderProcessor.placePaymentOrder(legalCase, authenticatedUser, ipAddress);
+	public PaymentOrder createOrder(LegalCase legalCase, AuthenticatedUser authenticatedUser) {
 		MoneyAmount price = resolvePrice(legalCase);
+
+		PlacePaymentOrder placeOrderCommand = PlacePaymentOrder.builder()
+			.authenticatedUser(authenticatedUser)
+			.legalCase(legalCase)
+			.currencyCode(PLN)
+			.price(price)
+			.build();
+
+		PaymentResponseDto orderDetail = paymentOrderProcessor.placePaymentOrder(placeOrderCommand);
 
 		CreatePaymentOrder command = CreatePaymentOrder.builder()
 			.legalCaseUuid(legalCase.uuid())
 			.paymentStatus(PENDING)
 			.paymentType(PURCHASE)
 			.orderId(orderDetail.orderId())
-			.paymentLink(new URL(orderDetail.redirectUri())) //todo: url must come from payment response
-			.currencyCode(CurrencyCode.PLN)
+			.paymentLink(URI.create(orderDetail.redirectUri()).toURL())
+			.currencyCode(PLN)
 			.purchasePrice(price)
 			.authenticatedUser(authenticatedUser)
 			.build();

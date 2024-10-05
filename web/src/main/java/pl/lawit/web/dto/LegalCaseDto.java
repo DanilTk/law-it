@@ -75,10 +75,7 @@ public interface LegalCaseDto {
 		String description,
 
 		@NonNull
-		CaseType caseType,
-
-		@NonNull
-		String ipAddress
+		CaseType caseType
 
 	) {
 	}

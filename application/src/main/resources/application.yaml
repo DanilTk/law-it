@@ -184,7 +184,9 @@ springdoc:
 
 payment-gateway:
   payu:
-    authenticationUrl: https://secure.snd.payu.com/pl/standard/user/oauth/authorize
-    clientId: ${payuClientId}
-    clientSecret: ${payuClientSecret}
-    baseUrl: https://secure.snd.payu.com
+    authorization-url: https://secure.snd.payu.com/pl/standard/user/oauth/authorize
+    client-id: ${PAYU_CLIENT_ID}
+    client-secret: ${PAYU_CLIENT_SECRET}
+    base-url: https://secure.snd.payu.com
+    callback-url: https://webhook.site/d3452338-be41-43da-89f3-4018b1ff5d21
+    grant-type: client_credentials

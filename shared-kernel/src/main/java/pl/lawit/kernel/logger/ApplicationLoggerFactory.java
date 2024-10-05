@@ -37,6 +37,10 @@ public final class ApplicationLoggerFactory {
 		return LoggerFactory.getLogger("COMPANY_LOGGER");
 	}
 
+	public static Logger paymentGatewayLogger() {
+		return LoggerFactory.getLogger("PAYMENT_GATEWAY_LOGGER");
+	}
+
 	public static Logger cronLogger() {
 		return LoggerFactory.getLogger("CRON_LOGGER");
 	}

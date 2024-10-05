@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "application.security.firebase")
+@ConfigurationProperties("application.security.firebase")
 public class FirebaseProperties {
 
 	private String dbUrl;

@@ -3,33 +3,37 @@ package pl.lawit.gateway.dto;
 import lombok.Builder;
 import lombok.NonNull;
 
+import java.math.BigDecimal;
+import java.net.URL;
 import java.util.List;
 
 @Builder(toBuilder = true)
 public record OrderRequestDto(
-        @NonNull
-        String notifyUrl,
 
-        @NonNull
-        String customerIp,
+	@NonNull
+	URL notifyUrl,
 
-        @NonNull
-        String merchantPosId,
+	@NonNull
+	String customerIp,
 
-        @NonNull
-        String description,
+	@NonNull
+	String merchantPosId,
 
-        @NonNull
-        String currencyCode,
+	@NonNull
+	String description,
 
-        @NonNull
-        String totalAmount,
+	@NonNull
+	String currencyCode,
 
-        @NonNull
-        BuyerDto buyer,
+	@NonNull
+	BigDecimal totalAmount,
 
-        @NonNull
-        List<ProductRequestDto>products
+	@NonNull
+	BuyerRequestDto buyer,
+
+	@NonNull
+	List<ProductRequestDto> products
+
 ) {
 
 }

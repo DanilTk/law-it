@@ -8,7 +8,14 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.lawit.web.dto.LegalCaseDto.CreateAdvancedCaseRequestDto;
 import pl.lawit.web.dto.LegalCaseDto.LegalCaseDetailResponseDto;
 import pl.lawit.web.dto.LegalCaseDto.LegalCaseResponseDto;
@@ -17,7 +24,6 @@ import pl.lawit.web.dto.PageResponseDto;
 import pl.lawit.web.dto.PageableRequestDto;
 import pl.lawit.web.handler.LegalCaseHandler;
 
-import java.net.MalformedURLException;
 import java.util.UUID;
 
 import static pl.lawit.web.configuration.OpenApiConfiguration.SECURITY_SCHEME_NAME;
@@ -40,7 +46,7 @@ public class LegalCaseController implements BaseController {
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
-	public LegalCaseDetailResponseDto createBasicCase(@Valid @RequestBody CreateBasicCaseRequestDto dto) throws MalformedURLException {
+	public LegalCaseDetailResponseDto createBasicCase(@Valid @RequestBody CreateBasicCaseRequestDto dto) {
 		return handler.createBasicCase(dto);
 	}
 
@@ -52,7 +58,7 @@ public class LegalCaseController implements BaseController {
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('CLIENT_USER')")
-	public LegalCaseDetailResponseDto createBasicCase(@Valid @RequestBody CreateAdvancedCaseRequestDto dto) throws MalformedURLException {
+	public LegalCaseDetailResponseDto createBasicCase(@Valid @RequestBody CreateAdvancedCaseRequestDto dto) {
 		return handler.createAdvancedCase(dto);
 	}
 

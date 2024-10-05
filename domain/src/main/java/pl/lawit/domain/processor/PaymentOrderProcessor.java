@@ -1,13 +1,11 @@
 package pl.lawit.domain.processor;
 
-import pl.lawit.domain.model.LegalCase;
-import pl.lawit.domain.model.PaymentResponse;
-import pl.lawit.kernel.authentication.AuthenticatedUser;
+import pl.lawit.domain.command.PaymentOrderCommand.PlacePaymentOrder;
+import pl.lawit.domain.model.PaymentResponseDto;
 
 public interface PaymentOrderProcessor {
 
-	PaymentResponse placePaymentOrder(LegalCase legalCase,
-									  AuthenticatedUser authenticatedUser, String ipAddress);
+	PaymentResponseDto placePaymentOrder(PlacePaymentOrder command);
 
 	String refundPayment();
 }

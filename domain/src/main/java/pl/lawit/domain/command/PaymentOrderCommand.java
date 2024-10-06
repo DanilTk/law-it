@@ -27,7 +27,10 @@ public interface PaymentOrderCommand {
 		CurrencyCode currencyCode,
 
 		@NonNull
-		AuthenticatedUser authenticatedUser
+		AuthenticatedUser authenticatedUser,
+
+		@NonNull
+		String clientIP
 
 	) {
 	}

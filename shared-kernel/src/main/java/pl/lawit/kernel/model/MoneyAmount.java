@@ -42,4 +42,12 @@ public record MoneyAmount(
 		return value.compareTo(other.value);
 	}
 
+	private String formatValue(BigDecimal bd) {
+		return bd.stripTrailingZeros().toPlainString();
+	}
+	@Override
+	public String toString() {
+		return  formatValue(value);
+	}
+
 }

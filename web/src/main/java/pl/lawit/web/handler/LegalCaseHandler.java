@@ -39,20 +39,20 @@ public class LegalCaseHandler {
 
 	private final PageResponseDtoFactory pageResponseDtoFactory;
 
-	public LegalCaseDetailResponseDto createBasicCase(CreateBasicCaseRequestDto dto) {
+	public LegalCaseDetailResponseDto createBasicCase(CreateBasicCaseRequestDto dto, String clientIp) {
 		CreateCase command = commandMapper.mapToCreateCaseCommand(dto);
 
-		LegalCaseInfo info = legalCaseService.createLegalCase(command);
+		LegalCaseInfo info = legalCaseService.createLegalCase(command, clientIp);
 
 		caseLogger().info("Basic case has been created");
 
 		return CaseDtoMapper.map(info);
 	}
 
-	public LegalCaseDetailResponseDto createAdvancedCase(CreateAdvancedCaseRequestDto dto) {
+	public LegalCaseDetailResponseDto createAdvancedCase(CreateAdvancedCaseRequestDto dto, String clientIp) {
 		CreateCase command = commandMapper.mapToCreateCaseCommand(dto);
 
-		LegalCaseInfo info = legalCaseService.createLegalCase(command);
+		LegalCaseInfo info = legalCaseService.createLegalCase(command, clientIp);
 
 		return CaseDtoMapper.map(info);
 	}

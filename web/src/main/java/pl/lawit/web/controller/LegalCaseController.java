@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
@@ -46,8 +47,18 @@ public class LegalCaseController implements BaseController {
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('ADMIN_USER')")
-	public LegalCaseDetailResponseDto createBasicCase(@Valid @RequestBody CreateBasicCaseRequestDto dto) {
-		return handler.createBasicCase(dto);
+	public LegalCaseDetailResponseDto createBasicCase(@Valid @RequestBody CreateBasicCaseRequestDto dto,
+													  HttpServletRequest request) {
+		String xForwardedFor = request.getHeader("X-Forwarded-For");
+		String clientIp;
+
+		if (xForwardedFor != null && !xForwardedFor.isEmpty()) {
+			clientIp = xForwardedFor.split(",")[0];
+		} else {
+			clientIp = request.getRemoteAddr();
+		}
+
+		return handler.createBasicCase(dto, clientIp);
 	}
 
 	@Operation(summary = "Create advanced legal case")
@@ -58,8 +69,18 @@ public class LegalCaseController implements BaseController {
 	})
 	@SecurityRequirement(name = SECURITY_SCHEME_NAME)
 	@PreAuthorize("hasRole('CLIENT_USER')")
-	public LegalCaseDetailResponseDto createBasicCase(@Valid @RequestBody CreateAdvancedCaseRequestDto dto) {
-		return handler.createAdvancedCase(dto);
+	public LegalCaseDetailResponseDto createBasicCase(@Valid @RequestBody CreateAdvancedCaseRequestDto dto,
+													  HttpServletRequest request) {
+			String xForwardedFor = request.getHeader("X-Forwarded-For");
+			String clientIp;
+
+			if (xForwardedFor != null && !xForwardedFor.isEmpty()) {
+				clientIp = xForwardedFor.split(",")[0];
+			} else {
+				clientIp = request.getRemoteAddr();
+			}
+
+		return handler.createAdvancedCase(dto, clientIp);
 	}
 
 	@Operation(summary = "Accept legal case")

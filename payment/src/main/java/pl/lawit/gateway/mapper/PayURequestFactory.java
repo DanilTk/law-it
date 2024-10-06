@@ -7,6 +7,7 @@ import pl.lawit.gateway.dto.BuyerRequestDto;
 import pl.lawit.gateway.dto.OrderRequestDto;
 import pl.lawit.gateway.dto.ProductRequestDto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static pl.lawit.domain.command.PaymentOrderCommand.PlacePaymentOrder;
@@ -24,17 +25,18 @@ public class PayURequestFactory {
 
 		ProductRequestDto product = ProductRequestDto.builder()
 			.name(productDescription)
-			.unitPrice(command.price().value())
+			.unitPrice(command.price().multiply(BigDecimal.valueOf(100)).toString())
+			.quantity(String.valueOf(1))
 			.build();
 
 		List<ProductRequestDto> productRequestDtoList = List.of(product);
 
 		return OrderRequestDto.builder()
 			.notifyUrl(paymentGatewayPayuProperties.getCallbackUrl())
-			.customerIp(paymentGatewayPayuProperties.getCallbackIp())
+			.customerIp(command.clientIP())
 			.merchantPosId(paymentGatewayPayuProperties.getClientId())
 			.currencyCode(command.currencyCode().name())
-			.totalAmount(command.price().value())
+			.totalAmount(command.price().multiply(BigDecimal.valueOf(100)).toString())
 			.description(command.legalCase().descriptionUuid().toString())
 			.products(productRequestDtoList)
 			.buyer(buyer)

@@ -3,7 +3,6 @@ package pl.lawit.gateway.dto;
 import lombok.Builder;
 import lombok.NonNull;
 
-import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public record OrderRequestDto(
 	String currencyCode,
 
 	@NonNull
-	BigDecimal totalAmount,
+	String totalAmount,
 
 	@NonNull
 	BuyerRequestDto buyer,

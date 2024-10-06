@@ -3,8 +3,6 @@ package pl.lawit.gateway.dto;
 import lombok.Builder;
 import lombok.NonNull;
 
-import java.math.BigDecimal;
-
 @Builder(toBuilder = true)
 public record ProductRequestDto(
 
@@ -12,7 +10,10 @@ public record ProductRequestDto(
 	String name,
 
 	@NonNull
-	BigDecimal unitPrice
+	String unitPrice,
+
+	@NonNull
+	String quantity
 
 ) {
 }

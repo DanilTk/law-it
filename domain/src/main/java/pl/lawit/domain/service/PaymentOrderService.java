@@ -44,7 +44,7 @@ public class PaymentOrderService {
 
 	@SneakyThrows
 	@Transactional(propagation = MANDATORY)
-	public PaymentOrder createOrder(LegalCase legalCase, AuthenticatedUser authenticatedUser) {
+	public PaymentOrder createOrder(LegalCase legalCase, AuthenticatedUser authenticatedUser, String clientIp) {
 		MoneyAmount price = resolvePrice(legalCase);
 
 		PlacePaymentOrder placeOrderCommand = PlacePaymentOrder.builder()
@@ -52,6 +52,7 @@ public class PaymentOrderService {
 			.legalCase(legalCase)
 			.currencyCode(PLN)
 			.price(price)
+			.clientIP(clientIp)
 			.build();
 
 		PaymentResponseDto orderDetail = paymentOrderProcessor.placePaymentOrder(placeOrderCommand);

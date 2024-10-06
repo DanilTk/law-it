@@ -21,8 +21,6 @@ public class PaymentGatewayPayUProperties {
 
 	private String clientSecret;
 
-	private String callbackIp;
-
 	private String grantType;
 
 }

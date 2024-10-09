@@ -19,7 +19,7 @@ public class CaseCommandMapper {
 
 	private final AuthenticatedUserResolver authenticatedUserResolver;
 
-	public CreateCase mapToCreateCaseCommand(CreateBasicCaseRequestDto dto) {
+	public CreateCase mapToCreateCaseCommand(CreateBasicCaseRequestDto dto, String clientIp) {
 		AuthenticatedUser authenticatedUser = authenticatedUserResolver.getAuthenticatedUser();
 
 		return CreateCase.builder()
@@ -30,10 +30,11 @@ public class CaseCommandMapper {
 			.caseType(dto.caseType())
 			.fileUuids(HashSet.empty())
 			.authenticatedUser(authenticatedUser)
+			.clientIp(clientIp)
 			.build();
 	}
 
-	public CreateCase mapToCreateCaseCommand(CreateAdvancedCaseRequestDto dto) {
+	public CreateCase mapToCreateCaseCommand(CreateAdvancedCaseRequestDto dto, String clientIp) {
 		AuthenticatedUser authenticatedUser = authenticatedUserResolver.getAuthenticatedUser();
 		return CreateCase.builder()
 			.title(dto.title())
@@ -43,6 +44,7 @@ public class CaseCommandMapper {
 			.caseType(dto.caseType())
 			.fileUuids(HashSet.ofAll(dto.fileIds()))
 			.authenticatedUser(authenticatedUser)
+			.clientIp(clientIp)
 			.build();
 	}
 

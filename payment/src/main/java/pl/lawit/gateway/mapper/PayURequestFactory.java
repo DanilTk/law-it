@@ -25,7 +25,7 @@ public class PayURequestFactory {
 
 		ProductRequestDto product = ProductRequestDto.builder()
 			.name(productDescription)
-			.unitPrice(command.price().multiply(BigDecimal.valueOf(100)).toString())
+			.unitPrice(convertToPayUAmount(command.price().value()))
 			.quantity(String.valueOf(1))
 			.build();
 
@@ -33,14 +33,20 @@ public class PayURequestFactory {
 
 		return OrderRequestDto.builder()
 			.notifyUrl(paymentGatewayPayuProperties.getCallbackUrl())
-			.customerIp(command.clientIP())
+			.customerIp(command.clientIp())
 			.merchantPosId(paymentGatewayPayuProperties.getClientId())
 			.currencyCode(command.currencyCode().name())
-			.totalAmount(command.price().multiply(BigDecimal.valueOf(100)).toString())
+			.totalAmount(convertToPayUAmount(command.price().value()))
 			.description(command.legalCase().descriptionUuid().toString())
 			.products(productRequestDtoList)
 			.buyer(buyer)
 			.build();
 	}
+
+	private String convertToPayUAmount(BigDecimal amount) {
+		BigDecimal payUAmount = amount.multiply(BigDecimal.valueOf(100));
+		return payUAmount.stripTrailingZeros().toPlainString();
+	}
+
 
 }

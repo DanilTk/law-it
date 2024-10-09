@@ -1,10 +1,10 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
     <option name="ACTIVE_PROFILES" value="local" />
+    <envs>
+      <env name="GOOGLE_APPLICATION_CREDENTIALS" value="C:\Programming\law-it\storage\src\main\resources\secrets\firebase-nonprod-sa.json" />
+    </envs>
     <module name="application" />
-    <selectedOptions>
-      <option name="environmentVariables" />
-    </selectedOptions>
     <option name="SPRING_BOOT_MAIN_CLASS" value="pl.lawit.application.Application" />
     <extension name="coverage">
       <pattern>

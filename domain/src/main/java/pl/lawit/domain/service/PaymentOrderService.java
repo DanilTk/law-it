@@ -52,7 +52,7 @@ public class PaymentOrderService {
 			.legalCase(legalCase)
 			.currencyCode(PLN)
 			.price(price)
-			.clientIP(clientIp)
+			.clientIp(clientIp)
 			.build();
 
 		PaymentResponseDto orderDetail = paymentOrderProcessor.placePaymentOrder(placeOrderCommand);

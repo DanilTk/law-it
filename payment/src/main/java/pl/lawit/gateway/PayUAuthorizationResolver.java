@@ -53,16 +53,15 @@ public class PayUAuthorizationResolver {
 	private void cacheWithExpiry(String key, String token, Instant expiryTime) {
 		Cache cache = cacheManager.getCache(TOKEN_CACHE_NAME);
 
-		if (cache != null && cache.getNativeCache() instanceof com.github.benmanes.caffeine.cache.Cache) {
-			@SuppressWarnings("unchecked")
-			com.github.benmanes.caffeine.cache.Cache<String, String> nativeCache =
-				(com.github.benmanes.caffeine.cache.Cache<String, String>) cache.getNativeCache();
+		@SuppressWarnings("unchecked")
+		com.github.benmanes.caffeine.cache.Cache<String, String> nativeCache =
+			(com.github.benmanes.caffeine.cache.Cache<String, String>) cache.getNativeCache();
 
-			long ttl = Duration.between(Instant.now(), expiryTime).getSeconds();
+		long ttl = Duration.between(Instant.now(), expiryTime).getSeconds();
 
-			nativeCache.put(key, token);
-			nativeCache.policy().expireAfterWrite().ifPresent(expiry -> expiry.setExpiresAfter(Duration.ofSeconds(ttl)));
-		}
+		nativeCache.put(key, token);
+		nativeCache.policy().expireAfterWrite().ifPresent(expiry -> expiry.setExpiresAfter(Duration.ofSeconds(ttl)));
+
 	}
 
 	private Option<String> retrieveFromCache() {

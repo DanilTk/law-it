@@ -57,7 +57,6 @@ public class LegalCaseController implements BaseController {
 		} else {
 			clientIp = request.getRemoteAddr();
 		}
-
 		return handler.createBasicCase(dto, clientIp);
 	}
 

@@ -30,7 +30,7 @@ public interface PaymentOrderCommand {
 		AuthenticatedUser authenticatedUser,
 
 		@NonNull
-		String clientIP
+		String clientIp
 
 	) {
 	}

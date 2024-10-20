@@ -28,7 +28,7 @@ import static pl.lawit.web.util.ApiVersioning.LI_WEB_API_JSON_V1;
 @RestController
 @RequestMapping(value = "/files", produces = LI_WEB_API_JSON_V1)
 @RequiredArgsConstructor
-public class FileController implements BaseController{
+public class FileController implements BaseController {
 
 	private final FileHandler handler;
 

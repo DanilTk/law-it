@@ -19,6 +19,7 @@ spring:
     cache-names:
       - rate-limit-files-bucket-cache
       - rate-limit-authorization-cache
+      - payment-gateway-token-cache
     caffeine:
       spec: maximumSize=100000,expireAfterAccess=3600s
   docker:
@@ -181,3 +182,12 @@ springdoc:
     oauth2-redirect-url: ${application.server-url}/swagger-ui/oauth2-redirect.html
     persist-authorization: true
     operations-sorter: method
+
+payment-gateway:
+  payu:
+    authorization-url: https://secure.snd.payu.com/pl/standard/user/oauth/authorize
+    client-id: ${PAYU_CLIENT_ID}
+    client-secret: ${PAYU_CLIENT_SECRET}
+    base-url: https://secure.snd.payu.com
+    callback-url: https://webhook.site/d3452338-be41-43da-89f3-4018b1ff5d21
+    grant-type: client_credentials

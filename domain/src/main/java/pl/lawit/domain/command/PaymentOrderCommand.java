@@ -3,6 +3,7 @@ package pl.lawit.domain.command;
 import lombok.Builder;
 import lombok.NonNull;
 import pl.lawit.domain.model.CurrencyCode;
+import pl.lawit.domain.model.LegalCase;
 import pl.lawit.domain.model.PaymentStatus;
 import pl.lawit.domain.model.PaymentType;
 import pl.lawit.kernel.authentication.AuthenticatedUser;
@@ -12,6 +13,27 @@ import java.net.URL;
 import java.util.UUID;
 
 public interface PaymentOrderCommand {
+
+	@Builder
+	record PlacePaymentOrder(
+
+		@NonNull
+		LegalCase legalCase,
+
+		@NonNull
+		MoneyAmount price,
+
+		@NonNull
+		CurrencyCode currencyCode,
+
+		@NonNull
+		AuthenticatedUser authenticatedUser,
+
+		@NonNull
+		String clientIp
+
+	) {
+	}
 
 	@Builder(toBuilder = true)
 	record CreatePaymentOrder(

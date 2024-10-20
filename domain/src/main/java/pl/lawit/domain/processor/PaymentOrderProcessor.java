@@ -1,10 +1,11 @@
 package pl.lawit.domain.processor;
 
-import pl.lawit.domain.model.PaymentOrderDetail;
+import pl.lawit.domain.command.PaymentOrderCommand.PlacePaymentOrder;
+import pl.lawit.domain.model.PaymentResponseDto;
 
 public interface PaymentOrderProcessor {
 
-	PaymentOrderDetail placePaymentOrder();
+	PaymentResponseDto placePaymentOrder(PlacePaymentOrder command);
 
 	String refundPayment();
 }

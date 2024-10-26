@@ -158,6 +158,7 @@ application:
       - /api-web/companies/**
       - /api-web/lawyers/**
       - /api-web/users/**
+      - /api-web/registration
     files-api-group:
       - /api-web/files/**
     payments-api-group:

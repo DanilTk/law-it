@@ -36,7 +36,10 @@ public interface CaseCommand {
 		Set<UUID> fileUuids,
 
 		@NonNull
-		AuthenticatedUser authenticatedUser
+		AuthenticatedUser authenticatedUser,
+
+		@NonNull
+		String clientIp
 
 	) {
 	}

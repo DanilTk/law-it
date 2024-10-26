@@ -65,6 +65,10 @@
 		<appender-ref ref="COMPANY_FILE_APPENDER"/>
 	</logger>
 
+	<logger name="PAYMENT_GATEWAY_LOGGER" level="INFO">
+		<appender-ref ref="PAYMENT_GATEWAY_FILE_APPENDER"/>
+	</logger>
+
 	<root level="INFO">
 		<appender-ref ref="CONSOLE_APPENDER"/>
 		<appender-ref ref="LAWIT_FILE_APPENDER"/>
@@ -142,6 +146,17 @@
 			<file>logs/company.log</file>
 			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 				<fileNamePattern>logs/company-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}">
+				<pattern>${ENCODER_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="PAYMENT_GATEWAY_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/payment_gateway.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/payment_gateway-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
 				<maxFileSize>10MB</maxFileSize>
 			</rollingPolicy>
 			<encoder class="${ENCODER_CLASS}">
@@ -261,6 +276,15 @@
 			<file>logs/company.log</file>
 			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 				<fileNamePattern>logs/company-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+				<maxFileSize>10MB</maxFileSize>
+			</rollingPolicy>
+			<encoder class="${ENCODER_CLASS}"/>
+		</appender>
+
+		<appender name="PAYMENT_GATEWAY_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logs/payment_gateway.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				<fileNamePattern>logs/payment_gateway-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
 				<maxFileSize>10MB</maxFileSize>
 			</rollingPolicy>
 			<encoder class="${ENCODER_CLASS}"/>
